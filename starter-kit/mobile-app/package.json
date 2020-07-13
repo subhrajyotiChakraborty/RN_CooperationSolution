@@ -1,5 +1,5 @@
 {
-  "name": "cooperation-solution",
+  "name": "solution-starter-kit-cooperation-2020-app",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -26,6 +26,7 @@
     "react-native-safe-area-context": "^0.7.3",
     "react-native-screens": "^2.2.0",
     "react-native-svg": "^12.0.3",
+    "react-native-swiper": "^1.6.0-rc.3",
     "react-native-webview": "^8.1.2"
   },
   "devDependencies": {
