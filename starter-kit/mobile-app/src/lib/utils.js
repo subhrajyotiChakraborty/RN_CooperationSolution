@@ -19,6 +19,8 @@ export const search = query => {
   const name = query.name ? `name=${query.name}` : '';
   const userID = query.userID ? `userID=${query.userID}` : '';
 
+  console.log(`${serverUrl}/api/resource?${name}&${type}&${userID}`);
+
   return fetch(`${serverUrl}/api/resource?${name}&${type}&${userID}`, {
     method: 'GET',
     mode: 'no-cors',

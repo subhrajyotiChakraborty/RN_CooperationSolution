@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     color: 'red',
   },
   signupBtnContainer: {
-    backgroundColor: 'rgb(103, 98, 255)',
+    backgroundColor: 'rgb(26, 72, 255)',
     borderRadius: 10,
   },
   signupBtn: {

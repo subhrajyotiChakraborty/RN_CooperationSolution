@@ -65,17 +65,17 @@ class Onboarding extends Component {
       if (this.state.currentIndex === 1) {
         return {
           ...styles.footerContainer,
-          backgroundColor: 'rgb(103, 98, 255)',
+          backgroundColor: 'rgb(26, 72, 255)',
         };
       } else if (this.state.currentIndex === 2) {
         return {
           ...styles.footerContainer,
-          backgroundColor: 'rgb(103, 98, 255)',
+          backgroundColor: 'rgb(26, 72, 255)',
         };
       } else {
         return {
           ...styles.footerContainer,
-          backgroundColor: 'rgb(103, 98, 255)',
+          backgroundColor: 'rgb(26, 72, 255)',
         };
       }
     };

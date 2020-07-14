@@ -56,7 +56,7 @@ const tabBarOptions =
     activeTintColor: 'white',
     inactiveTintColor: 'black',
     tabStyle: {
-      backgroundColor: 'rgb(103, 98, 255)',
+      backgroundColor: 'rgb(26, 72, 255)',
       paddingTop: 5,
     },
   };
@@ -144,7 +144,7 @@ const App = () => {
               headerTintColor: 'white',
               headerTitleAlign: 'center',
               headerStyle: {
-                backgroundColor: 'rgb(103, 98, 255)',
+                backgroundColor: 'rgb(26, 72, 255)',
               },
             }}
           />
@@ -156,7 +156,7 @@ const App = () => {
               headerTintColor: 'white',
               headerTitleAlign: 'center',
               headerStyle: {
-                backgroundColor: 'rgb(103, 98, 255)',
+                backgroundColor: 'rgb(26, 72, 255)',
               },
             }}
           />
