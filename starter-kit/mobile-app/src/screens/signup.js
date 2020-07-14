@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+import PickerSelect from 'react-native-picker-select';
+
 class Signup extends Component {
   constructor(props) {
     super(props);
@@ -16,6 +18,9 @@ class Signup extends Component {
       isValidUserName: true,
       isValidEmail: true,
       isValidPassword: true,
+      isValidPhoneNumber: true,
+      isValidAddress: true,
+      selectedRole: '',
     };
   }
   render() {
@@ -23,7 +28,7 @@ class Signup extends Component {
       <ScrollView style={styles.container}>
         <Text style={styles.welcomeTextStyle}>Join us</Text>
         <Text style={styles.subTextStyle}>Sign up to continue</Text>
-        <View style={styles.logInFormContainer}>
+        <View style={styles.signupFormContainer}>
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>Full Name</Text>
             <TextInput
@@ -60,6 +65,62 @@ class Signup extends Component {
               </Text>
             ) : null}
           </View>
+
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>Mobile Number</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter your 10 digit mobile number"
+              keyboardType="phone-pad"
+            />
+            {!this.state.isValidPhoneNumber ? (
+              <Text style={styles.errorText}>
+                Please enter your 10 digit mobile number
+              </Text>
+            ) : null}
+          </View>
+
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>Address</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter your home address"
+            />
+            {!this.state.isValidAddress ? (
+              <Text style={styles.errorText}>
+                Please enter your 10 digit mobile number
+              </Text>
+            ) : null}
+          </View>
+
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>User Role</Text>
+            <PickerSelect
+              useNativeAndroidPickerStyle={false}
+              style={{
+                inputIOS: styles.selector,
+                inputAndroid: styles.selectorAndroid,
+              }}
+              value={this.state.selectedRole}
+              onValueChange={t =>
+                this.setState({...this.state, selectedRole: t})
+              }
+              items={[
+                {label: 'Social Worker', value: 'Social Worker'},
+                {label: 'Teacher', value: 'Teacher'},
+                {label: 'Doctor', value: 'Doctor'},
+                {label: 'Business Owner', value: 'Business Owner'},
+                {label: 'Technical Person', value: 'Technical Person'},
+              ]}
+              placeholder={{
+                label: 'Select your role...',
+              }}
+              placeholderTextColor="rgb(128, 128, 128)"
+            />
+            {!this.state.isValidAddress ? (
+              <Text style={styles.errorText}>Please select you role</Text>
+            ) : null}
+          </View>
         </View>
         <View style={styles.signupBtnContainer}>
           <TouchableOpacity style={styles.signupBtn}>
@@ -79,12 +140,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 35,
     marginBottom: 5,
+    fontFamily: 'IBMPlexSans-Medium',
   },
   subTextStyle: {
     color: 'rgb(173,173,173)',
     fontSize: 18,
+    fontFamily: 'IBMPlexSans-Medium',
   },
-  logInFormContainer: {
+  signupFormContainer: {
     marginVertical: 40,
   },
   inputContainer: {
@@ -92,28 +155,49 @@ const styles = StyleSheet.create({
   },
   inputLabel: {
     fontSize: 24,
+    fontFamily: 'IBMPlexSans-Medium',
+    paddingBottom: 10,
   },
   input: {
     borderBottomColor: 'rgb(183,183,183)',
     borderBottomWidth: 1,
     padding: 0,
     fontSize: 16,
+    fontFamily: 'IBMPlexSans-Medium',
   },
   errorText: {
     marginTop: 5,
     color: 'red',
+    fontFamily: 'IBMPlexSans-Medium',
   },
   signupBtnContainer: {
     backgroundColor: 'rgb(26, 72, 255)',
     borderRadius: 10,
+    marginBottom: 30,
   },
   signupBtn: {
     padding: 15,
   },
   signupTextStyle: {
     fontSize: 18,
+    fontFamily: 'IBMPlexSans-Medium',
     color: '#fff',
     textAlign: 'center',
+  },
+  selector: {
+    fontFamily: 'IBMPlexSans-Medium',
+    borderColor: '#D0E2FF',
+    borderWidth: 2,
+    padding: 16,
+    marginBottom: 25,
+    fontSize: 16,
+  },
+  selectorAndroid: {
+    fontFamily: 'IBMPlexSans-Medium',
+    color: 'black',
+    padding: 0,
+    margin: 0,
+    fontSize: 16,
   },
 });
 export default Signup;

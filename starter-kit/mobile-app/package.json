@@ -27,7 +27,10 @@
     "react-native-screens": "^2.2.0",
     "react-native-svg": "^12.0.3",
     "react-native-swiper": "^1.6.0-rc.3",
-    "react-native-webview": "^8.1.2"
+    "react-native-webview": "^8.1.2",
+    "react-redux": "^7.2.0",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",

@@ -19,7 +19,7 @@ const slides = [
   {
     key: '1',
     title: 'Community',
-    text: 'This is some dummy text',
+    text: '',
     image: {
       uri:
         'https://image.shutterstock.com/image-vector/community-vector-icon-600w-623001206.jpg',
@@ -28,7 +28,7 @@ const slides = [
   {
     key: '2',
     title: 'Donate',
-    text: 'This is some dummy text.',
+    text: '',
     image: {
       uri:
         'https://image.shutterstock.com/image-vector/three-hands-support-each-other-600w-1043518303.jpg',
@@ -37,7 +37,7 @@ const slides = [
   {
     key: '3',
     title: 'SOS',
-    text: 'This is some dummy text.',
+    text: '',
     image: {
       uri:
         'https://image.shutterstock.com/image-vector/sos-vector-icon-warning-bell-600w-1081165856.jpg',
@@ -149,6 +149,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     color: '#333',
     textAlign: 'center',
+    fontFamily: 'IBMPlexSans-Medium',
   },
   footerContainer: {
     flex: 1,
@@ -168,6 +169,7 @@ const styles = StyleSheet.create({
   },
   getStartedTextStyle: {
     fontSize: 18,
+    fontFamily: 'IBMPlexSans-Medium',
   },
   loginBtn: {
     padding: 20,
@@ -177,6 +179,7 @@ const styles = StyleSheet.create({
   loginTextStyle: {
     fontSize: 18,
     color: '#fff',
+    fontFamily: 'IBMPlexSans-Medium',
   },
 });
 

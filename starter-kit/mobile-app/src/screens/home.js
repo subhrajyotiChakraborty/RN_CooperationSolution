@@ -1,28 +1,11 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Image,
-  Text,
-  TouchableOpacity,
-  Button,
-  Linking,
-} from 'react-native';
+import {StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 
 const styles = StyleSheet.create({
   center: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    backgroundColor: '#FFFFFF',
-  },
-  scroll: {
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingBottom: 25,
-    paddingTop: 75,
+    padding: 18,
   },
   image: {
     alignSelf: 'flex-start',
@@ -56,6 +39,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 15,
     width: 175,
+    marginBottom: 200,
   },
   button: {
     backgroundColor: '#1062FE',
@@ -70,48 +54,11 @@ const styles = StyleSheet.create({
 });
 
 const Home = () => (
-  <View style={styles.center}>
-    <ScrollView style={styles.scroll}>
-      <Image
-        style={styles.image}
-        source={require('../images/2020-cfc-512.png')}
-      />
-      <Text style={styles.subtitle}>Starter Kit</Text>
-      <Text style={styles.title}>Community Collaboration</Text>
-      <Text style={styles.content}>
-        There is a growing interest in enabling communities to cooperate among
-        themselves to solve problems in times of crisis, whether it be to
-        advertise where supplies are held, offer assistance for collections, or
-        other local services like volunteer deliveries.
-      </Text>
-      <Text style={styles.content}>
-        What is needed is a solution that empowers communities to easily connect
-        and provide this information to each other.
-      </Text>
-      <Text style={styles.content}>
-        This solution starter kit provides a mobile application, along with
-        server-side components, that serves as the basis for developers to build
-        out a community cooperation application that addresses local needs for
-        food, equipment, and resources.
-      </Text>
-      <View style={styles.buttonGroup}>
-        <TouchableOpacity
-          onPress={() =>
-            Linking.openURL('https://developer.ibm.com/callforcode')
-          }>
-          <Text style={styles.button}>Learn more</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() =>
-            Linking.openURL(
-              'https://github.com/Call-for-Code/Solution-Starter-Kit-Cooperation-2020',
-            )
-          }>
-          <Text style={styles.button}>Get the code</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
-  </View>
+  <ScrollView style={styles.center}>
+    <View>
+      <Text>Home Tab</Text>
+    </View>
+  </ScrollView>
 );
 
 export default Home;

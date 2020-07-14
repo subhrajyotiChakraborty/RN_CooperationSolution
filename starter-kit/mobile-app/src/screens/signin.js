@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import {
   View,
   StyleSheet,
@@ -7,6 +8,9 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
+
+import * as actions from '../store/actions';
+
 class SignIn extends Component {
   constructor(props) {
     super(props);
@@ -51,7 +55,12 @@ class SignIn extends Component {
         <View style={styles.loginBtnContainer}>
           <TouchableOpacity
             style={styles.loginBtn}
-            onPress={() => this.props.navigation.navigate('Tabs')}>
+            onPress={() => {
+              this.props.auth();
+              if (this.props.isLoggedIn) {
+                this.props.navigation.navigate('Tabs');
+              }
+            }}>
             <Text style={styles.loginTextStyle}>Sign In</Text>
           </TouchableOpacity>
         </View>
@@ -68,10 +77,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 35,
     marginBottom: 5,
+    fontFamily: 'IBMPlexSans-Medium',
   },
   subTextStyle: {
     color: 'rgb(173,173,173)',
     fontSize: 18,
+    fontFamily: 'IBMPlexSans-Medium',
   },
   logInFormContainer: {
     marginVertical: 40,
@@ -81,16 +92,20 @@ const styles = StyleSheet.create({
   },
   inputLabel: {
     fontSize: 24,
+    fontFamily: 'IBMPlexSans-Medium',
+    paddingBottom: 10,
   },
   input: {
     borderBottomColor: 'rgb(183,183,183)',
     borderBottomWidth: 1,
     padding: 0,
     fontSize: 16,
+    fontFamily: 'IBMPlexSans-Medium',
   },
   errorText: {
     marginTop: 5,
     color: 'red',
+    fontFamily: 'IBMPlexSans-Medium',
   },
   loginBtnContainer: {
     backgroundColor: 'rgb(26, 72, 255)',
@@ -100,10 +115,27 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   loginTextStyle: {
+    fontFamily: 'IBMPlexSans-Medium',
     fontSize: 18,
     color: '#fff',
     textAlign: 'center',
   },
 });
 
-export default SignIn;
+const mapStateToProps = state => {
+  return {
+    isLoading: state.user.loading,
+    isLoggedIn: state.user.isLoggedIn,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    auth: () => dispatch(actions.authUser({})),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SignIn);
