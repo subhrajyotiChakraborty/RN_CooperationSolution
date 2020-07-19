@@ -4,10 +4,11 @@ import {
   View,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
+
+import {TextField} from 'react-native-material-textfield';
 
 import * as actions from '../store/actions';
 
@@ -27,11 +28,12 @@ class SignIn extends Component {
         <Text style={styles.subTextStyle}>Sign in to continue</Text>
         <View style={styles.logInFormContainer}>
           <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Email</Text>
-            <TextInput
-              style={styles.input}
+            <TextField
+              // style={styles.input}
+              label="Email"
+              labelFontSize={16}
               keyboardType="email-address"
-              placeholder="Enter your email"
+              // placeholder="Enter your email"
             />
             {!this.state.isValidEmail ? (
               <Text style={styles.errorText}>Enter a valid email</Text>
@@ -39,11 +41,13 @@ class SignIn extends Component {
           </View>
 
           <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Password</Text>
-            <TextInput
+            <TextField
               secureTextEntry
-              style={styles.input}
-              placeholder="Enter your password"
+              label="Password"
+              labelFontSize={16}
+              characterRestriction={20}
+              // style={styles.input}
+              // placeholder="Enter your password"
             />
             {!this.state.isValidPassword ? (
               <Text style={styles.errorText}>
