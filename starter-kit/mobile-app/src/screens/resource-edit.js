@@ -1,22 +1,16 @@
 import React from 'react';
 import {StyleSheet, View, Text, TouchableOpacity, Alert} from 'react-native';
 
-import {
-  TextField,
-  FilledTextField,
-  OutlinedTextField,
-} from 'react-native-material-textfield';
-
 import {ScrollView} from 'react-native-gesture-handler';
 import PickerSelect from 'react-native-picker-select';
 import {CheckedIcon, UncheckedIcon} from '../images/svg-icons';
 import Geolocation from '@react-native-community/geolocation';
 
 import {update, remove, userID} from '../lib/utils';
+import InputField from '../components/InputField';
 
 const styles = StyleSheet.create({
   outerView: {
-    // flex: 1,
     padding: 22,
     backgroundColor: '#FFF',
   },
@@ -26,12 +20,14 @@ const styles = StyleSheet.create({
   },
   typeArea: {
     width: '40%',
-    // borderWidth: 1,
-    // borderColor: 'red',
   },
 
   selectorLabel: {
     paddingTop: 10,
+    color: 'rgb(152, 154, 163)',
+    fontSize: 20,
+    fontFamily: 'IBMPlexSans-Medium',
+    marginBottom: 13,
   },
 
   inputContainer: {
@@ -52,53 +48,55 @@ const styles = StyleSheet.create({
     margin: 0,
     fontSize: 16,
   },
-  selector: {
-    fontFamily: 'IBMPlexSans-Medium',
-    borderColor: '#D0E2FF',
-    borderWidth: 2,
-    padding: 16,
-    marginBottom: 25,
-  },
   quantityArea: {
     width: '40%',
   },
   checkboxContainer: {
+    marginVertical: 10,
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginBottom: 10,
   },
   checkboxLabel: {
     fontFamily: 'IBMPlexSans-Light',
-    fontSize: 13,
+    fontSize: 16,
+  },
+
+  textLabel: {
+    fontFamily: 'IBMPlexSans-Medium',
+  },
+
+  textInput: {
+    fontFamily: 'IBMPlexSans-Medium',
   },
   textInputDisabled: {
     fontFamily: 'IBMPlexSans-Medium',
     backgroundColor: '#f4f4f4',
     color: '#999',
-    flex: 1,
-    padding: 16,
-    elevation: 2,
-    marginBottom: 25,
+  },
+  buttonContainer: {
+    marginTop: 15,
+    paddingBottom: 50,
+  },
+  updateButtonWrapper: {
+    backgroundColor: 'rgb(26, 72, 255)',
+    borderRadius: 5,
+  },
+  deleteButtonWrapper: {
+    marginTop: 10,
+    backgroundColor: '#da1e28',
+    borderRadius: 5,
+  },
+  buttonTextStyle: {
+    fontFamily: 'IBMPlexSans-Medium',
+    fontSize: 18,
+    color: '#fff',
+    textAlign: 'center',
   },
   updateButton: {
-    backgroundColor: '#1062FE',
-    color: '#FFFFFF',
-    fontFamily: 'IBMPlexSans-Medium',
-    fontSize: 16,
-    overflow: 'hidden',
     padding: 12,
-    textAlign: 'center',
-    marginTop: 15,
   },
   deleteButton: {
-    backgroundColor: '#da1e28',
-    color: '#FFFFFF',
-    fontFamily: 'IBMPlexSans-Medium',
-    fontSize: 16,
-    overflow: 'hidden',
     padding: 12,
-    textAlign: 'center',
-    marginTop: 15,
   },
 });
 
@@ -119,6 +117,7 @@ const EditResource = props => {
   React.useEffect(() => {
     props.navigation.addListener('focus', () => {
       const item = props.route.params.item;
+      console.log(item);
       setItem({
         ...item,
         quantity: item.quantity.toString(),
@@ -188,6 +187,7 @@ const EditResource = props => {
         <View style={styles.typeArea}>
           <Text style={styles.selectorLabel}>Type</Text>
           <PickerSelect
+            useNativeAndroidPickerStyle={false}
             style={{
               inputIOS: styles.selector,
               inputAndroid: styles.selectorAndroid,
@@ -202,12 +202,11 @@ const EditResource = props => {
           />
         </View>
         <View style={styles.quantityArea}>
-          {/* <Text style={styles.inputLabel}>Quantity</Text> */}
-          <TextField
+          <InputField
             style={styles.textInput}
             label="Quantity"
-            labelFontSize={14}
-            labelTextStyle={{color: 'black'}}
+            labelTextStyle={styles.textLabel}
+            labelFontSize={20}
             value={item.quantity}
             onChangeText={t => setItem({...item, quantity: t})}
             onSubmitEditing={updateItem}
@@ -219,21 +218,26 @@ const EditResource = props => {
         </View>
       </View>
 
-      <TextField
+      <InputField
         style={styles.textInput}
         value={item.name}
+        labelFontSize={20}
         label="Name"
+        labelTextStyle={styles.textLabel}
         onChangeText={t => setItem({...item, name: t})}
         onSubmitEditing={updateItem}
         returnKeyType="send"
+        characterRestriction={50}
         enablesReturnKeyAutomatically={true}
         placeholder="e.g., Tomotatoes"
         blurOnSubmit={false}
       />
 
-      <TextField
+      <InputField
         style={styles.textInput}
         label="Contact"
+        labelFontSize={20}
+        labelTextStyle={styles.textLabel}
         value={item.contact}
         onChangeText={t => setItem({...item, contact: t})}
         onSubmitEditing={updateItem}
@@ -242,9 +246,11 @@ const EditResource = props => {
         placeholder="user@domain.com"
       />
 
-      <TextField
+      <InputField
         style={styles.textInput}
+        labelTextStyle={styles.textLabel}
         label="Description"
+        labelFontSize={20}
         value={item.description}
         multiline
         characterRestriction={300}
@@ -258,15 +264,18 @@ const EditResource = props => {
       <View style={styles.checkboxContainer}>
         <TouchableOpacity onPress={toggleUseLocation}>
           {useLocation ? (
-            <CheckedIcon height="18" width="18" />
+            <CheckedIcon height="20" width="20" />
           ) : (
-            <UncheckedIcon height="18" width="18" />
+            <UncheckedIcon height="20" width="20" />
           )}
         </TouchableOpacity>
         <Text style={styles.checkboxLabel}> Use my current location </Text>
       </View>
-      <TextField
+      <InputField
         label="Location"
+        labelFontSize={20}
+        style={useLocation ? styles.textInputDisabled : styles.textInput}
+        labelTextStyle={styles.textLabel}
         value={item.location}
         disabled={useLocation}
         onChangeText={t => setItem({...item, location: t})}
@@ -276,17 +285,25 @@ const EditResource = props => {
         placeholder="street address, city, state"
       />
 
-      {item.type !== '' &&
-        item.name.trim() !== '' &&
-        item.contact.trim() !== '' && (
-          <TouchableOpacity onPress={updateItem}>
-            <Text style={styles.updateButton}>Update</Text>
-          </TouchableOpacity>
-        )}
+      <View style={styles.buttonContainer}>
+        {item.type !== '' &&
+          item.name.trim() !== '' &&
+          item.contact.trim() !== '' && (
+            <View style={styles.updateButtonWrapper}>
+              <TouchableOpacity
+                style={styles.updateButton}
+                onPress={updateItem}>
+                <Text style={styles.buttonTextStyle}>Update</Text>
+              </TouchableOpacity>
+            </View>
+          )}
 
-      <TouchableOpacity onPress={confirmDelete}>
-        <Text style={styles.deleteButton}>Delete</Text>
-      </TouchableOpacity>
+        <View style={styles.deleteButtonWrapper}>
+          <TouchableOpacity style={styles.deleteButton} onPress={confirmDelete}>
+            <Text style={styles.buttonTextStyle}>Delete</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </ScrollView>
   );
 };

@@ -7,16 +7,17 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
+
 import {ScrollView} from 'react-native-gesture-handler';
 import PickerSelect from 'react-native-picker-select';
 import {CheckedIcon, UncheckedIcon} from '../images/svg-icons';
 import Geolocation from '@react-native-community/geolocation';
 
 import {add, userID} from '../lib/utils';
+import InputField from '../components/InputField';
 
 const styles = StyleSheet.create({
   outerView: {
-    // flex: 1,
     padding: 22,
     backgroundColor: '#FFF',
   },
@@ -27,11 +28,17 @@ const styles = StyleSheet.create({
   typeArea: {
     width: '40%',
   },
-  label: {
+
+  selectorLabel: {
+    paddingTop: 10,
+    color: 'rgb(152, 154, 163)',
+    fontSize: 20,
     fontFamily: 'IBMPlexSans-Medium',
-    color: '#000',
-    fontSize: 14,
-    paddingBottom: 5,
+    marginBottom: 13,
+  },
+
+  inputContainer: {
+    marginBottom: 25,
   },
   selector: {
     fontFamily: 'IBMPlexSans-Medium',
@@ -39,49 +46,56 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     padding: 16,
     marginBottom: 25,
+    fontSize: 16,
+  },
+  selectorAndroid: {
+    fontFamily: 'IBMPlexSans-Medium',
+    color: 'black',
+    padding: 0,
+    margin: 0,
+    fontSize: 16,
   },
   quantityArea: {
     width: '40%',
   },
-  textInput: {
-    fontFamily: 'IBMPlexSans-Medium',
-    flex: 1,
-    borderColor: '#D0E2FF',
-    borderWidth: 2,
-    padding: 14,
-    elevation: 2,
-    marginBottom: 25,
-  },
   checkboxContainer: {
+    marginVertical: 10,
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginBottom: 10,
   },
   checkboxLabel: {
     fontFamily: 'IBMPlexSans-Light',
-    fontSize: 13,
+    fontSize: 16,
+  },
+
+  textLabel: {
+    fontFamily: 'IBMPlexSans-Medium',
+  },
+
+  textInput: {
+    fontFamily: 'IBMPlexSans-Medium',
   },
   textInputDisabled: {
     fontFamily: 'IBMPlexSans-Medium',
     backgroundColor: '#f4f4f4',
     color: '#999',
-    flex: 1,
-    padding: 16,
-    elevation: 2,
-    marginBottom: 25,
   },
   buttonContainer: {
-    paddingBottom: 30,
-  },
-  button: {
-    backgroundColor: '#1062FE',
-    color: '#FFFFFF',
-    fontFamily: 'IBMPlexSans-Medium',
-    fontSize: 16,
-    overflow: 'hidden',
-    padding: 12,
-    textAlign: 'center',
     marginTop: 15,
+    paddingBottom: 50,
+  },
+  addButtonWrapper: {
+    backgroundColor: 'rgb(26, 72, 255)',
+    borderRadius: 5,
+  },
+  buttonTextStyle: {
+    fontFamily: 'IBMPlexSans-Medium',
+    fontSize: 18,
+    color: '#fff',
+    textAlign: 'center',
+  },
+  addButton: {
+    padding: 12,
   },
 });
 
@@ -148,9 +162,13 @@ const AddResource = function({navigation}) {
     <ScrollView style={styles.outerView}>
       <View style={styles.splitView}>
         <View style={styles.typeArea}>
-          <Text style={styles.label}>Type</Text>
+          <Text style={styles.selectorLabel}>Type</Text>
           <PickerSelect
-            style={{inputIOS: styles.selector}}
+            useNativeAndroidPickerStyle={false}
+            style={{
+              inputIOS: styles.selector,
+              inputAndroid: styles.selectorAndroid,
+            }}
             value={item.type}
             onValueChange={t => setItem({...item, type: t})}
             items={[
@@ -161,10 +179,12 @@ const AddResource = function({navigation}) {
           />
         </View>
         <View style={styles.quantityArea}>
-          <Text style={styles.label}>Quantity</Text>
-          <TextInput
+          <InputField
             style={styles.textInput}
             value={item.quantity}
+            label="Quantity"
+            labelTextStyle={styles.textLabel}
+            labelFontSize={20}
             onChangeText={t => setItem({...item, quantity: t})}
             onSubmitEditing={sendItem}
             returnKeyType="send"
@@ -175,51 +195,65 @@ const AddResource = function({navigation}) {
         </View>
       </View>
 
-      <Text style={styles.label}>Name</Text>
-      <TextInput
+      <InputField
         style={styles.textInput}
         value={item.name}
+        label="Name"
+        labelTextStyle={styles.textLabel}
+        labelFontSize={20}
         onChangeText={t => setItem({...item, name: t})}
         onSubmitEditing={sendItem}
         returnKeyType="send"
+        characterRestriction={50}
         enablesReturnKeyAutomatically={true}
         placeholder="e.g., Tomotatoes"
         blurOnSubmit={false}
       />
-      <Text style={styles.label}>Contact</Text>
-      <TextInput
+
+      <InputField
         style={styles.textInput}
         value={item.contact}
+        label="Contact"
+        labelTextStyle={styles.textLabel}
+        labelFontSize={20}
         onChangeText={t => setItem({...item, contact: t})}
         onSubmitEditing={sendItem}
         returnKeyType="send"
         enablesReturnKeyAutomatically={true}
         placeholder="user@domain.com"
       />
-      <Text style={styles.label}>Description</Text>
-      <TextInput
+
+      <InputField
         style={styles.textInput}
         value={item.description}
+        label="Description"
+        labelTextStyle={styles.textLabel}
+        labelFontSize={20}
         onChangeText={t => setItem({...item, description: t})}
         onSubmitEditing={sendItem}
         returnKeyType="send"
+        multiline
+        characterRestriction={300}
         enablesReturnKeyAutomatically={true}
         placeholder="e.g., cans of tomatoes"
       />
-      <Text style={styles.label}>Location</Text>
+
       <View style={styles.checkboxContainer}>
         <TouchableOpacity onPress={toggleUseLocation}>
           {useLocation ? (
-            <CheckedIcon height="18" width="18" />
+            <CheckedIcon height="20" width="20" />
           ) : (
-            <UncheckedIcon height="18" width="18" />
+            <UncheckedIcon height="20" width="20" />
           )}
         </TouchableOpacity>
         <Text style={styles.checkboxLabel}> Use my current location </Text>
       </View>
-      <TextInput
+      <InputField
         style={useLocation ? styles.textInputDisabled : styles.textInput}
         value={item.location}
+        label="Location"
+        labelTextStyle={styles.textLabel}
+        labelFontSize={20}
         onChangeText={t => setItem({...item, location: t})}
         onSubmitEditing={sendItem}
         returnKeyType="send"
@@ -228,13 +262,17 @@ const AddResource = function({navigation}) {
         editable={!useLocation}
       />
 
-      {item.type !== '' &&
-        item.name.trim() !== '' &&
-        item.contact.trim() !== '' && (
-          <TouchableOpacity style={styles.buttonContainer} onPress={sendItem}>
-            <Text style={styles.button}>Add</Text>
-          </TouchableOpacity>
-        )}
+      <View style={styles.buttonContainer}>
+        {item.type !== '' &&
+          item.name.trim() !== '' &&
+          item.contact.trim() !== '' && (
+            <View style={styles.addButtonWrapper}>
+              <TouchableOpacity style={styles.addButton} onPress={sendItem}>
+                <Text style={styles.buttonTextStyle}>Add</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+      </View>
     </ScrollView>
   );
 };

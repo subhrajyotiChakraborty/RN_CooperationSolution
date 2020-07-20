@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 
 import {TextField} from 'react-native-material-textfield';
-
 import * as actions from '../store/actions';
 
 class SignIn extends Component {
@@ -29,11 +28,12 @@ class SignIn extends Component {
         <View style={styles.logInFormContainer}>
           <View style={styles.inputContainer}>
             <TextField
-              // style={styles.input}
+              style={styles.input}
+              labelTextStyle={styles.floatingInputLabel}
               label="Email"
-              labelFontSize={16}
+              labelFontSize={20}
               keyboardType="email-address"
-              // placeholder="Enter your email"
+              placeholder="Enter your email"
             />
             {!this.state.isValidEmail ? (
               <Text style={styles.errorText}>Enter a valid email</Text>
@@ -44,10 +44,11 @@ class SignIn extends Component {
             <TextField
               secureTextEntry
               label="Password"
-              labelFontSize={16}
+              labelTextStyle={styles.floatingInputLabel}
+              labelFontSize={20}
               characterRestriction={20}
-              // style={styles.input}
-              // placeholder="Enter your password"
+              style={styles.input}
+              placeholder="Enter your password"
             />
             {!this.state.isValidPassword ? (
               <Text style={styles.errorText}>
@@ -95,15 +96,14 @@ const styles = StyleSheet.create({
     marginBottom: 25,
   },
   inputLabel: {
-    fontSize: 24,
+    fontSize: 20,
     fontFamily: 'IBMPlexSans-Medium',
     paddingBottom: 10,
   },
+  floatingInputLabel: {
+    fontFamily: 'IBMPlexSans-Medium',
+  },
   input: {
-    borderBottomColor: 'rgb(183,183,183)',
-    borderBottomWidth: 1,
-    padding: 0,
-    fontSize: 16,
     fontFamily: 'IBMPlexSans-Medium',
   },
   errorText: {
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   },
   loginBtnContainer: {
     backgroundColor: 'rgb(26, 72, 255)',
-    borderRadius: 10,
+    borderRadius: 5,
   },
   loginBtn: {
     padding: 15,

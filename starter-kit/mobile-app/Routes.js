@@ -1,11 +1,13 @@
-import 'react-native-gesture-handler';
 import * as React from 'react';
-import {Button} from 'react-native';
+import {TouchableOpacity, Text} from 'react-native';
 import {connect} from 'react-redux';
 
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, DrawerActions} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import Feather from 'react-native-vector-icons/Feather';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import LoadingScreen from './src/screens/loading';
 import Home from './src/screens/home';
@@ -18,29 +20,75 @@ import Map from './src/screens/map';
 import Onboarding from './src/screens/onboarding';
 import SignIn from './src/screens/signin';
 import Signup from './src/screens/signup';
+import CustomDrawerContent from './src/components/CustomDrawerContent';
 import * as actions from './src/store/actions';
 
 import {HomeIcon, DonateIcon, SearchIcon} from './src/images/svg-icons';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
 const ResourcesStackOptions = ({navigation}) => {
   return {
     headerRight: () => (
-      <Button onPress={() => navigation.navigate('Chat')} title="Chat " />
+      <TouchableOpacity
+        style={{
+          padding: 10,
+        }}
+        onPress={() => navigation.navigate('Chat')}>
+        <Ionicons
+          name="ios-chatbubble-ellipses-outline"
+          size={24}
+          color="white"
+        />
+      </TouchableOpacity>
     ),
+    headerTintColor: 'white',
+    headerTitleAlign: 'center',
+    headerStyle: {
+      backgroundColor: 'rgb(26, 72, 255)',
+    },
   };
 };
 
 const DonationsStackOptions = ({navigation}) => {
   return {
     headerRight: () => (
-      <Button
-        onPress={() => navigation.navigate('Add Donation')}
-        title="Add "
-      />
+      <TouchableOpacity
+        style={{
+          padding: 10,
+        }}
+        onPress={() => navigation.navigate('Add Donation')}>
+        <Feather name="plus" size={24} color="white" />
+      </TouchableOpacity>
     ),
+    headerTintColor: 'white',
+    headerTitleAlign: 'center',
+    headerStyle: {
+      backgroundColor: 'rgb(26, 72, 255)',
+    },
+  };
+};
+
+const HomeStackOptions = ({navigation}) => {
+  return {
+    headerTintColor: 'white',
+    headerTitleAlign: 'center',
+    headerStyle: {
+      backgroundColor: 'rgb(26, 72, 255)',
+    },
+    headerLeft: () => {
+      return (
+        <TouchableOpacity
+          style={{
+            padding: 10,
+          }}
+          onPress={() => navigation.toggleDrawer()}>
+          <Feather name="menu" size={24} color="white" />
+        </TouchableOpacity>
+      );
+    },
   };
 };
 
@@ -60,7 +108,7 @@ const TabLayout = () => (
     tabBarOptions={tabBarOptions}>
     <Tab.Screen
       name="Home"
-      component={Home}
+      component={HomeStackLayout}
       options={{
         tabBarIcon: ({color}) => <HomeIcon fill={color} />,
       }}
@@ -82,6 +130,12 @@ const TabLayout = () => (
   </Tab.Navigator>
 );
 
+const HomeStackLayout = () => (
+  <Stack.Navigator>
+    <Stack.Screen name="Home" component={Home} options={HomeStackOptions} />
+  </Stack.Navigator>
+);
+
 const DonateStackLayout = () => (
   <Stack.Navigator>
     <Stack.Screen
@@ -89,8 +143,28 @@ const DonateStackLayout = () => (
       component={MyResources}
       options={DonationsStackOptions}
     />
-    <Stack.Screen name="Add Donation" component={AddResource} />
-    <Stack.Screen name="Edit Donation" component={EditResource} />
+    <Stack.Screen
+      name="Add Donation"
+      component={AddResource}
+      options={{
+        headerTintColor: 'white',
+        headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: 'rgb(26, 72, 255)',
+        },
+      }}
+    />
+    <Stack.Screen
+      name="Edit Donation"
+      component={EditResource}
+      options={{
+        headerTintColor: 'white',
+        headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: 'rgb(26, 72, 255)',
+        },
+      }}
+    />
   </Stack.Navigator>
 );
 
@@ -101,8 +175,28 @@ const SearchStackLayout = () => (
       component={SearchResources}
       options={ResourcesStackOptions}
     />
-    <Stack.Screen name="Chat" component={Chat} />
-    <Stack.Screen name="Map" component={Map} />
+    <Stack.Screen
+      name="Chat"
+      component={Chat}
+      options={{
+        headerTintColor: 'white',
+        headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: 'rgb(26, 72, 255)',
+        },
+      }}
+    />
+    <Stack.Screen
+      name="Map"
+      component={Map}
+      options={{
+        headerTintColor: 'white',
+        headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: 'rgb(26, 72, 255)',
+        },
+      }}
+    />
   </Stack.Navigator>
 );
 
@@ -122,9 +216,9 @@ class Routes extends React.Component {
         {this.props.isLoading ? (
           <LoadingScreen />
         ) : (
-          <Stack.Navigator initialRouteName="Onboarding">
+          <React.Fragment>
             {!this.props.isLoggedIn ? (
-              <React.Fragment>
+              <Stack.Navigator initialRouteName="Onboarding">
                 <Stack.Screen
                   name="Onboarding"
                   component={Onboarding}
@@ -156,19 +250,20 @@ class Routes extends React.Component {
                     },
                   }}
                 />
-              </React.Fragment>
+              </Stack.Navigator>
             ) : (
-              <React.Fragment>
-                <Stack.Screen
+              <Drawer.Navigator
+                drawerContent={props => <CustomDrawerContent {...props} />}>
+                <Drawer.Screen
                   name="Tabs"
                   component={TabLayout}
                   options={{
                     headerShown: false,
                   }}
                 />
-              </React.Fragment>
+              </Drawer.Navigator>
             )}
-          </Stack.Navigator>
+          </React.Fragment>
         )}
       </NavigationContainer>
     );

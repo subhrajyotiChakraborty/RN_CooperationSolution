@@ -4,11 +4,11 @@ import {
   StyleSheet,
   Text,
   ScrollView,
-  TextInput,
   TouchableOpacity,
 } from 'react-native';
 
 import PickerSelect from 'react-native-picker-select';
+import {TextField} from 'react-native-material-textfield';
 
 class Signup extends Component {
   constructor(props) {
@@ -30,9 +30,11 @@ class Signup extends Component {
         <Text style={styles.subTextStyle}>Sign up to continue</Text>
         <View style={styles.signupFormContainer}>
           <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Full Name</Text>
-            <TextInput
+            <TextField
               style={styles.input}
+              labelTextStyle={styles.floatingInputLabel}
+              labelFontSize={20}
+              label="Full Name"
               keyboardType="email-address"
               placeholder="Enter your full name"
             />
@@ -41,9 +43,11 @@ class Signup extends Component {
             ) : null}
           </View>
           <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Email</Text>
-            <TextInput
+            <TextField
               style={styles.input}
+              labelTextStyle={styles.floatingInputLabel}
+              labelFontSize={20}
+              label="Email"
               keyboardType="email-address"
               placeholder="Enter your email"
             />
@@ -53,10 +57,13 @@ class Signup extends Component {
           </View>
 
           <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Password</Text>
-            <TextInput
+            <TextField
               secureTextEntry
+              labelFontSize={20}
+              labelTextStyle={styles.floatingInputLabel}
+              label="Password"
               style={styles.input}
+              characterRestriction={20}
               placeholder="Enter your password"
             />
             {!this.state.isValidPassword ? (
@@ -67,11 +74,14 @@ class Signup extends Component {
           </View>
 
           <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Mobile Number</Text>
-            <TextInput
+            <TextField
               style={styles.input}
+              labelTextStyle={styles.floatingInputLabel}
+              labelFontSize={20}
+              label="Mobile Number"
               placeholder="Enter your 10 digit mobile number"
               keyboardType="phone-pad"
+              characterRestriction={10}
             />
             {!this.state.isValidPhoneNumber ? (
               <Text style={styles.errorText}>
@@ -81,9 +91,13 @@ class Signup extends Component {
           </View>
 
           <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Address</Text>
-            <TextInput
+            <TextField
               style={styles.input}
+              labelTextStyle={styles.floatingInputLabel}
+              labelFontSize={20}
+              label="Address"
+              multiline
+              characterRestriction={150}
               placeholder="Enter your home address"
             />
             {!this.state.isValidAddress ? (
@@ -154,15 +168,15 @@ const styles = StyleSheet.create({
     marginBottom: 25,
   },
   inputLabel: {
-    fontSize: 24,
+    fontSize: 20,
     fontFamily: 'IBMPlexSans-Medium',
     paddingBottom: 10,
+    color: 'rgb(152, 154, 163)',
+  },
+  floatingInputLabel: {
+    fontFamily: 'IBMPlexSans-Medium',
   },
   input: {
-    borderBottomColor: 'rgb(183,183,183)',
-    borderBottomWidth: 1,
-    padding: 0,
-    fontSize: 16,
     fontFamily: 'IBMPlexSans-Medium',
   },
   errorText: {
@@ -172,7 +186,7 @@ const styles = StyleSheet.create({
   },
   signupBtnContainer: {
     backgroundColor: 'rgb(26, 72, 255)',
-    borderRadius: 10,
+    borderRadius: 5,
     marginBottom: 30,
   },
   signupBtn: {
