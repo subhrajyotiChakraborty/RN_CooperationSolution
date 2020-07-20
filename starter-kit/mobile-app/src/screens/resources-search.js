@@ -40,10 +40,6 @@ const styles = StyleSheet.create({
 
   selector: {
     fontFamily: 'IBMPlexSans-Medium',
-    borderColor: '#D0E2FF',
-    borderWidth: 2,
-    padding: 16,
-    marginBottom: 25,
     fontSize: 16,
   },
   selectorAndroid: {
@@ -60,12 +56,6 @@ const styles = StyleSheet.create({
 
   textInput: {
     fontFamily: 'IBMPlexSans-Medium',
-  },
-  selector: {
-    fontFamily: 'IBMPlexSans-Medium',
-    backgroundColor: '#fff',
-    padding: 8,
-    marginBottom: 10,
   },
   buttonWrapper: {
     marginTop: 10,

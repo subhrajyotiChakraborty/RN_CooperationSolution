@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {TouchableOpacity, Text} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 
 import {NavigationContainer, DrawerActions} from '@react-navigation/native';
@@ -37,15 +37,24 @@ const ResourcesStackOptions = ({navigation}) => {
           padding: 10,
         }}
         onPress={() => navigation.navigate('Chat')}>
-        <Ionicons
-          name="ios-chatbubble-ellipses-outline"
-          size={24}
-          color="white"
-        />
+        <Feather name="message-square" size={24} color="white" />
       </TouchableOpacity>
     ),
+    headerLeft: () => {
+      return (
+        <TouchableOpacity
+          style={{
+            padding: 10,
+          }}
+          onPress={() => navigation.toggleDrawer()}>
+          <Feather name="menu" size={24} color="white" />
+        </TouchableOpacity>
+      );
+    },
     headerTintColor: 'white',
     headerTitleAlign: 'center',
+    headerBackTitleVisible: false,
+    gestureEnabled: false,
     headerStyle: {
       backgroundColor: 'rgb(26, 72, 255)',
     },
@@ -63,15 +72,28 @@ const DonationsStackOptions = ({navigation}) => {
         <Feather name="plus" size={24} color="white" />
       </TouchableOpacity>
     ),
+    headerLeft: () => {
+      return (
+        <TouchableOpacity
+          style={{
+            padding: 10,
+          }}
+          onPress={() => navigation.toggleDrawer()}>
+          <Feather name="menu" size={24} color="white" />
+        </TouchableOpacity>
+      );
+    },
     headerTintColor: 'white',
     headerTitleAlign: 'center',
+    headerBackTitleVisible: false,
+    gestureEnabled: false,
     headerStyle: {
       backgroundColor: 'rgb(26, 72, 255)',
     },
   };
 };
 
-const HomeStackOptions = ({navigation}) => {
+const HomeOptions = ({navigation}) => {
   return {
     headerTintColor: 'white',
     headerTitleAlign: 'center',
@@ -132,7 +154,7 @@ const TabLayout = () => (
 
 const HomeStackLayout = () => (
   <Stack.Navigator>
-    <Stack.Screen name="Home" component={Home} options={HomeStackOptions} />
+    <Stack.Screen name="Home" component={Home} options={HomeOptions} />
   </Stack.Navigator>
 );
 
@@ -149,6 +171,8 @@ const DonateStackLayout = () => (
       options={{
         headerTintColor: 'white',
         headerTitleAlign: 'center',
+        headerBackTitleVisible: false,
+        gestureEnabled: false,
         headerStyle: {
           backgroundColor: 'rgb(26, 72, 255)',
         },
@@ -160,6 +184,8 @@ const DonateStackLayout = () => (
       options={{
         headerTintColor: 'white',
         headerTitleAlign: 'center',
+        headerBackTitleVisible: false,
+        gestureEnabled: false,
         headerStyle: {
           backgroundColor: 'rgb(26, 72, 255)',
         },
@@ -181,6 +207,8 @@ const SearchStackLayout = () => (
       options={{
         headerTintColor: 'white',
         headerTitleAlign: 'center',
+        headerBackTitleVisible: false,
+        gestureEnabled: false,
         headerStyle: {
           backgroundColor: 'rgb(26, 72, 255)',
         },
@@ -192,6 +220,8 @@ const SearchStackLayout = () => (
       options={{
         headerTintColor: 'white',
         headerTitleAlign: 'center',
+        headerBackTitleVisible: false,
+        gestureEnabled: false,
         headerStyle: {
           backgroundColor: 'rgb(26, 72, 255)',
         },
@@ -233,6 +263,8 @@ class Routes extends React.Component {
                     headerTitle: '',
                     headerTintColor: 'white',
                     headerTitleAlign: 'center',
+                    headerBackTitleVisible: false,
+                    gestureEnabled: false,
                     headerStyle: {
                       backgroundColor: 'rgb(26, 72, 255)',
                     },
@@ -245,6 +277,8 @@ class Routes extends React.Component {
                     headerTitle: '',
                     headerTintColor: 'white',
                     headerTitleAlign: 'center',
+                    headerBackTitleVisible: false,
+                    gestureEnabled: false,
                     headerStyle: {
                       backgroundColor: 'rgb(26, 72, 255)',
                     },
