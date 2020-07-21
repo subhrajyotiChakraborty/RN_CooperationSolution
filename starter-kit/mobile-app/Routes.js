@@ -7,7 +7,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import Feather from 'react-native-vector-icons/Feather';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 import LoadingScreen from './src/screens/loading';
 import Home from './src/screens/home';
@@ -126,27 +126,33 @@ const tabBarOptions = {
 const TabLayout = () => (
   <Tab.Navigator
     style={{paddingTop: 50}}
-    initialRouteName="Home"
+    initialRouteName="News"
     tabBarOptions={tabBarOptions}>
     <Tab.Screen
-      name="Home"
+      name="News"
       component={HomeStackLayout}
       options={{
-        tabBarIcon: ({color}) => <HomeIcon fill={color} />,
+        tabBarIcon: ({color, size}) => (
+          <Entypo name="news" color={color} size={size} />
+        ),
       }}
     />
     <Tab.Screen
       name="Donate"
       component={DonateStackLayout}
       options={{
-        tabBarIcon: ({color}) => <DonateIcon fill={color} />,
+        tabBarIcon: ({color, size}) => (
+          <Entypo name="briefcase" color={color} size={size} />
+        ),
       }}
     />
     <Tab.Screen
       name="Search"
       component={SearchStackLayout}
       options={{
-        tabBarIcon: ({color}) => <SearchIcon fill={color} />,
+        tabBarIcon: ({color, size}) => (
+          <Feather name="search" color={color} size={size} />
+        ),
       }}
     />
   </Tab.Navigator>
@@ -154,7 +160,7 @@ const TabLayout = () => (
 
 const HomeStackLayout = () => (
   <Stack.Navigator>
-    <Stack.Screen name="Home" component={Home} options={HomeOptions} />
+    <Stack.Screen name="News" component={Home} options={HomeOptions} />
   </Stack.Navigator>
 );
 

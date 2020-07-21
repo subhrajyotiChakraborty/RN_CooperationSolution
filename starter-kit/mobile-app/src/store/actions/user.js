@@ -1,4 +1,14 @@
+import Config from 'react-native-config';
+import DeviceInfo from 'react-native-device-info';
+
 import * as actionTypes from './actionTypes';
+
+let serverUrl = Config.STARTER_KIT_SERVER_URL;
+if (serverUrl.endsWith('/')) {
+  serverUrl = serverUrl.slice(0, -1);
+}
+
+const uniqueid = DeviceInfo.getUniqueId();
 
 export const authUser = userData => {
   return async dispatch => {

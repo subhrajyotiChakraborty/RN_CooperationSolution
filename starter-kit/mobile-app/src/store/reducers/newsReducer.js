@@ -1,12 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const INITIAL_STATE = {
-  name: '',
-  role: '',
-  address: '',
-  phone: '',
-  email: '',
-  isLoggedIn: false,
+  news: [],
   loading: false,
   error: false,
   message: null,
@@ -14,7 +9,7 @@ const INITIAL_STATE = {
 
 const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case actionTypes.USER_AUTH_START:
+    case actionTypes.FETCH_NEWS_START:
       return {
         ...state,
         error: false,
@@ -22,7 +17,7 @@ const reducer = (state = INITIAL_STATE, action) => {
         loading: true,
       };
 
-    case actionTypes.USER_AUTH_FAIL:
+    case actionTypes.FETCH_NEWS_FAIL:
       return {
         ...state,
         error: true,
@@ -30,13 +25,13 @@ const reducer = (state = INITIAL_STATE, action) => {
         loading: false,
       };
 
-    case actionTypes.USER_AUTH_SUCCESS:
+    case actionTypes.FETCH_NEWS_SUCCESS:
       return {
         ...state,
         error: false,
         message: null,
         loading: false,
-        isLoggedIn: true,
+        news: [...state.news, action.payload],
       };
 
     default:
