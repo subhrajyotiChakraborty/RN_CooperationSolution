@@ -8,6 +8,8 @@ const port = process.env.PORT || 3000;
 
 const cloudant = require("./lib/cloudant.js");
 
+const userCloudant = require("./lib/userCloudant");
+
 const app = express();
 app.use(bodyParser.json());
 
@@ -29,6 +31,18 @@ const testConnections = () => {
     })
     .then((info) => {
       status["cloudant"] = "ok";
+      return status;
+    })
+    .catch((err) => {
+      console.error(err);
+      status["cloudant"] = "failed";
+      return status;
+    })
+    .then(() => {
+      return userCloudant.userDbInfo();
+    })
+    .then(() => {
+      status["userCloudant"] = "ok";
       return status;
     })
     .catch((err) => {
@@ -265,7 +279,6 @@ app.delete("/api/resource/:id", (req, res) => {
 /**
  * Total covid19 cases
  */
-
 app.post("/api/news_1", (req, res) => {
   const text = req.body.text || "News";
   const sessionid = req.body.sessionid;
@@ -274,6 +287,70 @@ app.post("/api/news_1", (req, res) => {
     .message(text, sessionid)
     .then((result) => {
       res.json(result.generic);
+    })
+    .catch((err) => handleError(res, err));
+});
+
+/**
+ * Register a new user
+ */
+app.post("/api/register", (req, res) => {
+  const {
+    role,
+    name,
+    address,
+    phone,
+    location,
+    email,
+    mobileID,
+    password,
+  } = req.body;
+
+  userCloudant
+    .register(role, name, address, phone, location, email, mobileID, password)
+    .then((data) => {
+      if (data.statusCode != 201) {
+        res.sendStatus(data.statusCode);
+      } else {
+        const modifiedUserData = {
+          name,
+          phone,
+          email,
+          location,
+          address,
+          role,
+        };
+        res.send({ ...modifiedUserData });
+      }
+    })
+    .catch((err) => handleError(res, err));
+});
+
+/**
+ * Login a existing user
+ */
+app.post("/api/login", (req, res) => {
+  const { email, password } = req.body;
+
+  userCloudant
+    .login(email, password)
+    .then((data) => {
+      if (data.statusCode == 200 && data.data != "[]") {
+        const parsedData = JSON.parse(data.data);
+        const { name, phone, email, location, address, role } = parsedData[0];
+        const modifiedUserData = {
+          name,
+          phone,
+          email,
+          location,
+          address,
+          role,
+        };
+        res.send({ ...modifiedUserData });
+      } else {
+        console.log("No user registered");
+        res.send([]);
+      }
     })
     .catch((err) => handleError(res, err));
 });

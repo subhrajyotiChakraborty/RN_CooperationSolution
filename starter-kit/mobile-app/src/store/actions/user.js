@@ -1,3 +1,4 @@
+import axios from 'axios';
 import Config from 'react-native-config';
 import DeviceInfo from 'react-native-device-info';
 import Geolocation from '@react-native-community/geolocation';
@@ -15,16 +16,39 @@ export const authUser = userData => {
   return async dispatch => {
     try {
       dispatch(authUserStart());
-      setTimeout(() => {
-        dispatch(
-          authUserSuccess({
-            name: 'Subha',
-          }),
-        );
-      }, 2000);
+      // setTimeout(() => {
+      //   dispatch(
+      //     authUserSuccess({
+      //       name: 'Subha',
+      //     }),
+      //   );
+      // }, 2000);
+      const response = await axios.post(`${serverUrl}/api/login`, {
+        ...userData,
+      });
+      console.log(response.data);
+
+      // dispatch(authUserSuccess(response.data));
     } catch (error) {
       dispatch(authUserFail(error));
       console.log(error);
+    }
+  };
+};
+
+export const registerUser = userData => {
+  return async dispatch => {
+    try {
+      dispatch(authUserStart());
+      const response = await axios.post(`${serverUrl}/api/register`, {
+        ...userData,
+        mobileID: uniqueid,
+      });
+      console.log(response.data);
+      // dispatch(authUserSuccess(response.data));
+    } catch (error) {
+      console.log(error);
+      dispatch(authUserFail(error));
     }
   };
 };

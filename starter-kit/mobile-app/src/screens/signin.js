@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from 'react-native';
 
 import {TextField} from 'react-native-material-textfield';
@@ -18,8 +19,36 @@ class SignIn extends Component {
     this.state = {
       isValidEmail: true,
       isValidPassword: true,
+      email: '',
+      password: '',
     };
   }
+
+  handleTextChange = (text, fieldName) => {
+    this.setState({
+      ...this.state,
+      [fieldName]: text,
+    });
+  };
+
+  handleSighIn = () => {
+    const {email, password} = this.state;
+    const userData = {
+      email,
+      password,
+    };
+
+    if (!email.trim().length || !password.trim().length) {
+      Alert.alert('Error', 'All fields are required', [{text: 'OK'}]);
+    } else {
+      this.props.auth(userData);
+    }
+
+    // if (this.props.isLoggedIn) {
+    //   this.props.navigation.navigate('Tabs');
+    // }
+  };
+
   render() {
     return (
       <ScrollView style={styles.container}>
@@ -34,6 +63,13 @@ class SignIn extends Component {
               labelFontSize={20}
               keyboardType="email-address"
               placeholder="Enter your email"
+              value={this.state.email}
+              autoCapitalize="none"
+              autoCorrect={false}
+              onChangeText={t => this.handleTextChange(t, 'email')}
+              onSubmitEditing={this.handleSighIn}
+              returnKeyType="send"
+              enablesReturnKeyAutomatically={true}
             />
             {!this.state.isValidEmail ? (
               <Text style={styles.errorText}>Enter a valid email</Text>
@@ -49,6 +85,13 @@ class SignIn extends Component {
               characterRestriction={20}
               style={styles.input}
               placeholder="Enter your password"
+              autoCapitalize="none"
+              autoCorrect={false}
+              value={this.state.password}
+              onChangeText={t => this.handleTextChange(t, 'password')}
+              onSubmitEditing={this.handleSighIn}
+              returnKeyType="send"
+              enablesReturnKeyAutomatically={true}
             />
             {!this.state.isValidPassword ? (
               <Text style={styles.errorText}>
@@ -58,14 +101,7 @@ class SignIn extends Component {
           </View>
         </View>
         <View style={styles.loginBtnContainer}>
-          <TouchableOpacity
-            style={styles.loginBtn}
-            onPress={() => {
-              this.props.auth();
-              if (this.props.isLoggedIn) {
-                this.props.navigation.navigate('Tabs');
-              }
-            }}>
+          <TouchableOpacity style={styles.loginBtn} onPress={this.handleSighIn}>
             <Text style={styles.loginTextStyle}>Sign In</Text>
           </TouchableOpacity>
         </View>
@@ -135,7 +171,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    auth: () => dispatch(actions.authUser({})),
+    auth: userData => dispatch(actions.authUser(userData)),
   };
 };
 

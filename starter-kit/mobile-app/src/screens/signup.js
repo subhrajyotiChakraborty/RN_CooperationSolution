@@ -15,6 +15,7 @@ import {TextField} from 'react-native-material-textfield';
 import * as actions from '../store/actions';
 import {CheckedIcon, UncheckedIcon} from '../images/svg-icons';
 import InputField from '../components/InputField';
+import {add} from '../lib/utils';
 
 class Signup extends Component {
   constructor(props) {
@@ -60,16 +61,16 @@ class Signup extends Component {
   handleSignup = () => {
     const {name, phone, email, password, address, selectedRole} = this.state;
     const userData = {
-      name,
-      phone,
-      email,
-      password,
-      address,
-      role: selectedRole,
-      location: this.props.locationStr,
+      name: name.trim(),
+      phone: phone.trim(),
+      email: email.trim(),
+      password: password.trim(),
+      address: address.trim(),
+      role: selectedRole.trim(),
+      location: this.props.locationStr.trim(),
     };
 
-    console.log(userData);
+    // console.log(userData);
     if (
       !name.trim().length ||
       !phone.trim().length ||
@@ -80,6 +81,8 @@ class Signup extends Component {
       !this.props.locationStr.trim().length
     ) {
       Alert.alert('Error', 'All fields are required', [{text: 'OK'}]);
+    } else {
+      this.props.registerUser(userData);
     }
   };
 
@@ -99,6 +102,7 @@ class Signup extends Component {
               onChangeText={t => this.handleTextChange(t, 'name')}
               onSubmitEditing={this.handleSignup}
               returnKeyType="send"
+              autoCorrect={false}
               enablesReturnKeyAutomatically={true}
               keyboardType="email-address"
               placeholder="Enter your full name"
@@ -117,6 +121,8 @@ class Signup extends Component {
               onChangeText={t => this.handleTextChange(t, 'email')}
               onSubmitEditing={this.handleSignup}
               returnKeyType="send"
+              autoCapitalize="none"
+              autoCorrect={false}
               enablesReturnKeyAutomatically={true}
               keyboardType="email-address"
               placeholder="Enter your email"
@@ -137,6 +143,8 @@ class Signup extends Component {
               style={styles.input}
               onSubmitEditing={this.handleSignup}
               returnKeyType="send"
+              autoCapitalize="none"
+              autoCorrect={false}
               enablesReturnKeyAutomatically={true}
               characterRestriction={20}
               placeholder="Enter your password"
@@ -176,6 +184,7 @@ class Signup extends Component {
               labelTextStyle={styles.floatingInputLabel}
               labelFontSize={20}
               label="Address"
+              autoCorrect={false}
               value={this.state.address}
               onChangeText={t => this.handleTextChange(t, 'address')}
               multiline
@@ -357,6 +366,7 @@ const mapDispatchToProps = dispatch => {
     getLocation: () => dispatch(actions.getUserLocation()),
     updateLocation: locationStr =>
       dispatch(actions.updateUserLocation(locationStr)),
+    registerUser: userData => dispatch(actions.registerUser(userData)),
   };
 };
 
