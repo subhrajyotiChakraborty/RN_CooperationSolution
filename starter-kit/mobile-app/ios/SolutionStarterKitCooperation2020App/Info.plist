@@ -47,6 +47,7 @@
 	<false/>
 	<key>UIAppFonts</key>
 	<array>
+		<string>Entypo.ttf</string>
 		<string>Ionicons.ttf</string>
 		<string>Feather.ttf</string>
 		<string>IBMPlexSans-Bold.ttf</string>

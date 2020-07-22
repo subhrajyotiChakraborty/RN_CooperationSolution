@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {TouchableOpacity} from 'react-native';
+import {TouchableOpacity, Alert, Platform} from 'react-native';
 import {connect} from 'react-redux';
 
 import {NavigationContainer, DrawerActions} from '@react-navigation/native';
@@ -21,6 +21,7 @@ import Onboarding from './src/screens/onboarding';
 import SignIn from './src/screens/signin';
 import Signup from './src/screens/signup';
 import CustomDrawerContent from './src/components/CustomDrawerContent';
+import Profile from './src/screens/profile';
 import * as actions from './src/store/actions';
 
 import {HomeIcon, DonateIcon, SearchIcon} from './src/images/svg-icons';
@@ -114,6 +115,29 @@ const HomeOptions = ({navigation}) => {
   };
 };
 
+const ProfileOptions = ({navigation}) => {
+  return {
+    headerTintColor: 'white',
+    headerTitleAlign: 'center',
+    headerStyle: {
+      backgroundColor: 'rgb(26, 72, 255)',
+    },
+    headerLeft: () => {
+      return (
+        <TouchableOpacity
+          style={Platform.OS === 'ios' ? {padding: 0} : {padding: 10}}
+          onPress={() => navigation.goBack()}>
+          <Feather
+            name={Platform.OS === 'ios' ? 'chevron-left' : 'arrow-left'}
+            size={Platform.OS === 'ios' ? 34 : 24}
+            color="white"
+          />
+        </TouchableOpacity>
+      );
+    },
+  };
+};
+
 const tabBarOptions = {
   activeTintColor: 'white',
   inactiveTintColor: 'black',
@@ -122,6 +146,12 @@ const tabBarOptions = {
     paddingTop: 5,
   },
 };
+
+const ProfileLayout = () => (
+  <Stack.Navigator>
+    <Stack.Screen name="Profile" component={Profile} options={ProfileOptions} />
+  </Stack.Navigator>
+);
 
 const TabLayout = () => (
   <Tab.Navigator
@@ -246,6 +276,18 @@ class Routes extends React.Component {
     this.props.showSplashLoader();
   }
 
+  signOut = () => {
+    Alert.alert('Sign Out', 'Are you sure you want to sign out?', [
+      {text: 'Cancel'},
+      {text: 'Confirm', onPress: () => this.confirmLogout()},
+    ]);
+  };
+
+  confirmLogout = () => {
+    this.props.logout();
+    this.props.resetNewsState();
+  };
+
   render() {
     return (
       <NavigationContainer>
@@ -293,10 +335,24 @@ class Routes extends React.Component {
               </Stack.Navigator>
             ) : (
               <Drawer.Navigator
-                drawerContent={props => <CustomDrawerContent {...props} />}>
+                drawerContent={props => (
+                  <CustomDrawerContent
+                    name={this.props.name}
+                    signOut={this.signOut}
+                    email={this.props.email}
+                    {...props}
+                  />
+                )}>
                 <Drawer.Screen
                   name="Tabs"
                   component={TabLayout}
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+                <Drawer.Screen
+                  name="Profile"
+                  component={ProfileLayout}
                   options={{
                     headerShown: false,
                   }}
@@ -314,12 +370,16 @@ const mapStateToProps = state => {
   return {
     isLoading: state.splashLoader.isLoading,
     isLoggedIn: state.user.isLoggedIn,
+    name: state.user.name,
+    email: state.user.email,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     showSplashLoader: () => dispatch(actions.splashLoader()),
+    logout: () => dispatch(actions.logout()),
+    resetNewsState: () => dispatch(actions.resetNewsState()),
   };
 };
 

@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 
 import {TextField} from 'react-native-material-textfield';
+import Spinner from 'react-native-loading-spinner-overlay';
+
 import * as actions from '../store/actions';
 
 class SignIn extends Component {
@@ -44,14 +46,19 @@ class SignIn extends Component {
       this.props.auth(userData);
     }
 
-    // if (this.props.isLoggedIn) {
-    //   this.props.navigation.navigate('Tabs');
-    // }
+    if (this.props.isLoggedIn) {
+      this.props.navigation.navigate('Tabs');
+    }
   };
 
   render() {
     return (
       <ScrollView style={styles.container}>
+        <Spinner
+          visible={this.props.isLoading}
+          textContent={'Loading...'}
+          textStyle={styles.spinnerTextStyle}
+        />
         <Text style={styles.welcomeTextStyle}>Welcome back</Text>
         <Text style={styles.subTextStyle}>Sign in to continue</Text>
         <View style={styles.logInFormContainer}>
@@ -159,6 +166,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#fff',
     textAlign: 'center',
+  },
+  spinnerTextStyle: {
+    fontFamily: 'IBMPlexSans-Medium',
   },
 });
 

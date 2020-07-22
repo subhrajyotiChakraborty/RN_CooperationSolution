@@ -35,10 +35,10 @@ const styles = StyleSheet.create({
   },
   selector: {
     fontFamily: 'IBMPlexSans-Medium',
-    borderColor: '#D0E2FF',
-    borderWidth: 2,
-    padding: 16,
-    marginBottom: 25,
+    // borderColor: '#D0E2FF',
+    // borderWidth: 2,
+    // padding: 16,
+    // marginBottom: 25,
     fontSize: 16,
   },
   selectorAndroid: {

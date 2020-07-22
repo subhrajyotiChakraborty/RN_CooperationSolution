@@ -8,22 +8,18 @@ import {
 } from '@react-navigation/drawer';
 import UserAvatar from 'react-native-user-avatar';
 import Feather from 'react-native-vector-icons/Feather';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const CustomDrawerContent = props => {
+  console.log(props);
   return (
     <View style={{flex: 1}}>
       <DrawerContentScrollView {...props}>
         <View style={styles.drawerWrapper}>
           <View style={styles.avatarContainer}>
-            <UserAvatar
-              size={70}
-              style={styles.avatar}
-              name="Subhrajyoti Chakraborty"
-            />
+            <UserAvatar size={70} style={styles.avatar} name={props.name} />
             <View style={styles.userDetailsView}>
-              <Text style={styles.userName}>Subhrajyoti Chakraborty</Text>
-              <Text style={styles.userEmail}>ss@ss.com</Text>
+              <Text style={styles.userName}>{props.name}</Text>
+              <Text style={styles.userEmail}>{props.email}</Text>
             </View>
           </View>
           <View style={styles.routeContainer}>
@@ -50,7 +46,7 @@ const CustomDrawerContent = props => {
               )}
               label="Profile"
               onPress={() => {
-                console.log('go to Profile page');
+                props.navigation.navigate('Profile');
               }}
             />
 
@@ -91,7 +87,8 @@ const CustomDrawerContent = props => {
           )}
           label="Sign Out"
           onPress={() => {
-            console.log('Sign Out');
+            console.log(props);
+            props.signOut();
           }}
         />
       </View>
@@ -101,10 +98,11 @@ const CustomDrawerContent = props => {
 
 const styles = StyleSheet.create({
   drawerWrapper: {
-    padding: 10,
+    padding: 0,
   },
   avatarContainer: {
     flexDirection: 'row',
+    padding: 10,
   },
   avatar: {
     borderRadius: 100,

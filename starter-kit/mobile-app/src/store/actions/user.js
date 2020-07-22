@@ -26,9 +26,8 @@ export const authUser = userData => {
       const response = await axios.post(`${serverUrl}/api/login`, {
         ...userData,
       });
-      console.log(response.data);
-
-      // dispatch(authUserSuccess(response.data));
+      // console.log(response.data);
+      dispatch(authUserSuccess(response.data));
     } catch (error) {
       dispatch(authUserFail(error));
       console.log(error);
@@ -44,8 +43,8 @@ export const registerUser = userData => {
         ...userData,
         mobileID: uniqueid,
       });
-      console.log(response.data);
-      // dispatch(authUserSuccess(response.data));
+      // console.log(response.data);
+      dispatch(authUserSuccess(response.data));
     } catch (error) {
       console.log(error);
       dispatch(authUserFail(error));
@@ -94,5 +93,11 @@ export const updateUserLocation = locationStr => {
   return {
     type: actionTypes.USER_GEO_LOCATION,
     payload: locationStr,
+  };
+};
+
+export const logout = () => {
+  return {
+    type: actionTypes.USER_AUTH_LOGOUT,
   };
 };

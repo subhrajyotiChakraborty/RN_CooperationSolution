@@ -34,6 +34,9 @@ const reducer = (state = INITIAL_STATE, action) => {
         news: [...state.news, action.payload],
       };
 
+    case actionTypes.RESET_NEWS_STATE:
+      return INITIAL_STATE;
+
     default:
       return state;
   }

@@ -38,6 +38,12 @@ const reducer = (state = INITIAL_STATE, action) => {
         message: null,
         loading: false,
         isLoggedIn: true,
+        name: action.payload.name,
+        email: action.payload.email,
+        phone: action.payload.phone,
+        location: action.payload.location,
+        address: action.payload.address,
+        role: action.payload.role,
       };
 
     case actionTypes.USER_GEO_LOCATION:
@@ -45,6 +51,9 @@ const reducer = (state = INITIAL_STATE, action) => {
         ...state,
         location: action.payload,
       };
+
+    case actionTypes.USER_AUTH_LOGOUT:
+      return INITIAL_STATE;
 
     default:
       return state;

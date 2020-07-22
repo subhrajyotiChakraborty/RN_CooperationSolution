@@ -11,6 +11,7 @@ import {connect} from 'react-redux';
 
 import PickerSelect from 'react-native-picker-select';
 import {TextField} from 'react-native-material-textfield';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import * as actions from '../store/actions';
 import {CheckedIcon, UncheckedIcon} from '../images/svg-icons';
@@ -84,11 +85,20 @@ class Signup extends Component {
     } else {
       this.props.registerUser(userData);
     }
+
+    if (this.props.isLoggedIn) {
+      this.props.navigation.navigate('Tabs');
+    }
   };
 
   render() {
     return (
       <ScrollView style={styles.container}>
+        <Spinner
+          visible={this.props.isLoading}
+          textContent={'Loading...'}
+          textStyle={styles.spinnerTextStyle}
+        />
         <Text style={styles.welcomeTextStyle}>Join us</Text>
         <Text style={styles.subTextStyle}>Sign up to continue</Text>
         <View style={styles.signupFormContainer}>
@@ -331,10 +341,10 @@ const styles = StyleSheet.create({
   },
   selector: {
     fontFamily: 'IBMPlexSans-Medium',
-    borderColor: '#D0E2FF',
-    borderWidth: 2,
-    padding: 16,
-    marginBottom: 25,
+    // borderColor: '#D0E2FF',
+    // borderWidth: 2,
+    // padding: 16,
+    // marginBottom: 25,
     fontSize: 16,
   },
   selectorAndroid: {
@@ -353,11 +363,16 @@ const styles = StyleSheet.create({
     fontFamily: 'IBMPlexSans-Light',
     fontSize: 16,
   },
+  spinnerTextStyle: {
+    fontFamily: 'IBMPlexSans-Medium',
+  },
 });
 
 const mapStateToProps = state => {
   return {
     locationStr: state.user.location,
+    isLoading: state.user.loading,
+    isLoggedIn: state.user.isLoggedIn,
   };
 };
 

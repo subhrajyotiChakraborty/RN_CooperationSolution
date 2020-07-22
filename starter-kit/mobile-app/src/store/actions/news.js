@@ -55,3 +55,9 @@ const fetchNewsError = () => {
     type: actionTypes.FETCH_NEWS_START,
   };
 };
+
+export const resetNewsState = () => {
+  return {
+    type: actionTypes.RESET_NEWS_STATE,
+  };
+};

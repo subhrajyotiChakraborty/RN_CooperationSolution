@@ -122,7 +122,6 @@ function login(email, password) {
         if (err) {
           reject(err);
         } else {
-          console.log(documents.docs[0].password);
           bcrypt.compare(password, documents.docs[0].password, function (
             bcryptErr,
             result
