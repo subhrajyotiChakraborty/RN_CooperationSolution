@@ -5,10 +5,16 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
+import {connect} from 'react-redux';
 
 import PickerSelect from 'react-native-picker-select';
 import {TextField} from 'react-native-material-textfield';
+
+import * as actions from '../store/actions';
+import {CheckedIcon, UncheckedIcon} from '../images/svg-icons';
+import InputField from '../components/InputField';
 
 class Signup extends Component {
   constructor(props) {
@@ -20,9 +26,63 @@ class Signup extends Component {
       isValidPassword: true,
       isValidPhoneNumber: true,
       isValidAddress: true,
+      isValidRole: true,
+      useLocation: true,
       selectedRole: '',
+      name: '',
+      phone: '',
+      email: '',
+      address: '',
+      password: '',
     };
   }
+
+  componentDidMount() {
+    this.props.getLocation();
+  }
+
+  handleTextChange = (text, fieldName) => {
+    this.setState({
+      ...this.state,
+      [fieldName]: text,
+    });
+  };
+
+  handleToggleUseLocation = () => {
+    this.setState(prevState => {
+      return {
+        ...this.state,
+        useLocation: !prevState.useLocation,
+      };
+    });
+  };
+
+  handleSignup = () => {
+    const {name, phone, email, password, address, selectedRole} = this.state;
+    const userData = {
+      name,
+      phone,
+      email,
+      password,
+      address,
+      role: selectedRole,
+      location: this.props.locationStr,
+    };
+
+    console.log(userData);
+    if (
+      !name.trim().length ||
+      !phone.trim().length ||
+      !email.trim().length ||
+      !password.trim().length ||
+      !address.trim().length ||
+      !selectedRole.trim().length ||
+      !this.props.locationStr.trim().length
+    ) {
+      Alert.alert('Error', 'All fields are required', [{text: 'OK'}]);
+    }
+  };
+
   render() {
     return (
       <ScrollView style={styles.container}>
@@ -35,6 +95,11 @@ class Signup extends Component {
               labelTextStyle={styles.floatingInputLabel}
               labelFontSize={20}
               label="Full Name"
+              value={this.state.name}
+              onChangeText={t => this.handleTextChange(t, 'name')}
+              onSubmitEditing={this.handleSignup}
+              returnKeyType="send"
+              enablesReturnKeyAutomatically={true}
               keyboardType="email-address"
               placeholder="Enter your full name"
             />
@@ -48,6 +113,11 @@ class Signup extends Component {
               labelTextStyle={styles.floatingInputLabel}
               labelFontSize={20}
               label="Email"
+              value={this.state.email}
+              onChangeText={t => this.handleTextChange(t, 'email')}
+              onSubmitEditing={this.handleSignup}
+              returnKeyType="send"
+              enablesReturnKeyAutomatically={true}
               keyboardType="email-address"
               placeholder="Enter your email"
             />
@@ -62,7 +132,12 @@ class Signup extends Component {
               labelFontSize={20}
               labelTextStyle={styles.floatingInputLabel}
               label="Password"
+              value={this.state.password}
+              onChangeText={t => this.handleTextChange(t, 'password')}
               style={styles.input}
+              onSubmitEditing={this.handleSignup}
+              returnKeyType="send"
+              enablesReturnKeyAutomatically={true}
               characterRestriction={20}
               placeholder="Enter your password"
             />
@@ -79,8 +154,13 @@ class Signup extends Component {
               labelTextStyle={styles.floatingInputLabel}
               labelFontSize={20}
               label="Mobile Number"
+              value={this.state.phone}
+              onChangeText={t => this.handleTextChange(t, 'phone')}
               placeholder="Enter your 10 digit mobile number"
               keyboardType="phone-pad"
+              onSubmitEditing={this.handleSignup}
+              returnKeyType="send"
+              enablesReturnKeyAutomatically={true}
               characterRestriction={10}
             />
             {!this.state.isValidPhoneNumber ? (
@@ -96,7 +176,11 @@ class Signup extends Component {
               labelTextStyle={styles.floatingInputLabel}
               labelFontSize={20}
               label="Address"
+              value={this.state.address}
+              onChangeText={t => this.handleTextChange(t, 'address')}
               multiline
+              onSubmitEditing={this.handleSignup}
+              enablesReturnKeyAutomatically={true}
               characterRestriction={150}
               placeholder="Enter your home address"
             />
@@ -105,6 +189,37 @@ class Signup extends Component {
                 Please enter your 10 digit mobile number
               </Text>
             ) : null}
+          </View>
+
+          <View style={styles.inputContainer}>
+            <View style={styles.checkboxContainer}>
+              <TouchableOpacity onPress={this.handleToggleUseLocation}>
+                {this.state.useLocation ? (
+                  <CheckedIcon height="20" width="20" />
+                ) : (
+                  <UncheckedIcon height="20" width="20" />
+                )}
+              </TouchableOpacity>
+              <Text style={styles.checkboxLabel}>
+                {' '}
+                Use my current location{' '}
+              </Text>
+            </View>
+            <InputField
+              style={
+                this.state.useLocation ? styles.textInputDisabled : styles.input
+              }
+              value={this.props.locationStr}
+              label="Location"
+              labelTextStyle={styles.floatingInputLabel}
+              labelFontSize={20}
+              onChangeText={t => this.props.updateLocation(t)}
+              onSubmitEditing={this.handleSignup}
+              returnKeyType="send"
+              enablesReturnKeyAutomatically={true}
+              placeholder="street address, city, state"
+              editable={!this.state.useLocation}
+            />
           </View>
 
           <View style={styles.inputContainer}>
@@ -137,7 +252,9 @@ class Signup extends Component {
           </View>
         </View>
         <View style={styles.signupBtnContainer}>
-          <TouchableOpacity style={styles.signupBtn}>
+          <TouchableOpacity
+            style={styles.signupBtn}
+            onPress={this.handleSignup}>
             <Text style={styles.signupTextStyle}>Sign Up</Text>
           </TouchableOpacity>
         </View>
@@ -179,6 +296,11 @@ const styles = StyleSheet.create({
   input: {
     fontFamily: 'IBMPlexSans-Medium',
   },
+  textInputDisabled: {
+    fontFamily: 'IBMPlexSans-Medium',
+    backgroundColor: '#ddd',
+    color: '#999',
+  },
   errorText: {
     marginTop: 5,
     color: 'red',
@@ -213,5 +335,32 @@ const styles = StyleSheet.create({
     margin: 0,
     fontSize: 16,
   },
+  checkboxContainer: {
+    marginVertical: 10,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+  checkboxLabel: {
+    fontFamily: 'IBMPlexSans-Light',
+    fontSize: 16,
+  },
 });
-export default Signup;
+
+const mapStateToProps = state => {
+  return {
+    locationStr: state.user.location,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getLocation: () => dispatch(actions.getUserLocation()),
+    updateLocation: locationStr =>
+      dispatch(actions.updateUserLocation(locationStr)),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Signup);

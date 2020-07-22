@@ -1,5 +1,6 @@
 import Config from 'react-native-config';
 import DeviceInfo from 'react-native-device-info';
+import Geolocation from '@react-native-community/geolocation';
 
 import * as actionTypes from './actionTypes';
 
@@ -45,5 +46,29 @@ export const authUserSuccess = userData => {
   return {
     type: actionTypes.USER_AUTH_SUCCESS,
     payload: userData,
+  };
+};
+
+export const getUserLocation = () => {
+  return dispatch => {
+    Geolocation.getCurrentPosition(pos => {
+      dispatch(
+        saveUserLocation(`${pos.coords.latitude},${pos.coords.longitude}`),
+      );
+    });
+  };
+};
+
+export const saveUserLocation = locationStr => {
+  return {
+    type: actionTypes.USER_GEO_LOCATION,
+    payload: locationStr,
+  };
+};
+
+export const updateUserLocation = locationStr => {
+  return {
+    type: actionTypes.USER_GEO_LOCATION,
+    payload: locationStr,
   };
 };

@@ -10,6 +10,7 @@ const INITIAL_STATE = {
   loading: false,
   error: false,
   message: null,
+  location: '',
 };
 
 const reducer = (state = INITIAL_STATE, action) => {
@@ -37,6 +38,12 @@ const reducer = (state = INITIAL_STATE, action) => {
         message: null,
         loading: false,
         isLoggedIn: true,
+      };
+
+    case actionTypes.USER_GEO_LOCATION:
+      return {
+        ...state,
+        location: action.payload,
       };
 
     default:
