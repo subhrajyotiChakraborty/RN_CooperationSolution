@@ -11,6 +11,14 @@ const INITIAL_STATE = {
   error: false,
   message: null,
   location: '',
+
+  // dev purpose
+  // name: 'James Rodrigez',
+  // role: 'Technical Person',
+  // address: 'Madrid, Spain',
+  // phone: '1739023899',
+  // email: 'james@ss.com',
+  // isLoggedIn: true,
 };
 
 const reducer = (state = INITIAL_STATE, action) => {
