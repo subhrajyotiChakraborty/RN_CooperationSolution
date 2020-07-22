@@ -22,6 +22,8 @@ import SignIn from './src/screens/signin';
 import Signup from './src/screens/signup';
 import CustomDrawerContent from './src/components/CustomDrawerContent';
 import Profile from './src/screens/profile';
+import SOS from './src/screens/sos';
+import Detail from './src/screens/sosDetail';
 import * as actions from './src/store/actions';
 
 import {HomeIcon, DonateIcon, SearchIcon} from './src/images/svg-icons';
@@ -138,6 +140,27 @@ const ProfileOptions = ({navigation}) => {
   };
 };
 
+const SOSStackOptions = ({navigation}) => {
+  return {
+    headerTintColor: 'white',
+    headerTitleAlign: 'center',
+    headerStyle: {
+      backgroundColor: 'rgb(26, 72, 255)',
+    },
+    headerLeft: () => {
+      return (
+        <TouchableOpacity
+          style={{
+            padding: 10,
+          }}
+          onPress={() => navigation.toggleDrawer()}>
+          <Feather name="menu" size={24} color="white" />
+        </TouchableOpacity>
+      );
+    },
+  };
+};
+
 const tabBarOptions = {
   activeTintColor: 'white',
   inactiveTintColor: 'black',
@@ -173,6 +196,15 @@ const TabLayout = () => (
       options={{
         tabBarIcon: ({color, size}) => (
           <Entypo name="briefcase" color={color} size={size} />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="SOS"
+      component={SosStackLayout}
+      options={{
+        tabBarIcon: ({color, size}) => (
+          <Feather name="bell" color={color} size={size} />
         ),
       }}
     />
@@ -217,6 +249,25 @@ const DonateStackLayout = () => (
     <Stack.Screen
       name="Edit Donation"
       component={EditResource}
+      options={{
+        headerTintColor: 'white',
+        headerTitleAlign: 'center',
+        headerBackTitleVisible: false,
+        gestureEnabled: false,
+        headerStyle: {
+          backgroundColor: 'rgb(26, 72, 255)',
+        },
+      }}
+    />
+  </Stack.Navigator>
+);
+
+const SosStackLayout = () => (
+  <Stack.Navigator>
+    <Stack.Screen name="SOS" component={SOS} options={SOSStackOptions} />
+    <Stack.Screen
+      name="Detail"
+      component={Detail}
       options={{
         headerTintColor: 'white',
         headerTitleAlign: 'center',
