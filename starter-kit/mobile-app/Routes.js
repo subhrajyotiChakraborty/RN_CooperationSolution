@@ -271,7 +271,7 @@ const SosStackLayout = () => (
       component={Detail}
       options={{
         headerTintColor: 'white',
-        headerTitle: 'Service Provider',
+        headerTitle: 'List',
         headerTitleAlign: 'center',
         headerBackTitleVisible: false,
         gestureEnabled: false,
@@ -287,6 +287,20 @@ const SosStackLayout = () => (
         headerTintColor: 'white',
         headerTitleAlign: 'center',
         headerTitle: 'Details',
+        headerBackTitleVisible: false,
+        gestureEnabled: false,
+        headerStyle: {
+          backgroundColor: 'rgb(26, 72, 255)',
+        },
+      }}
+    />
+    <Stack.Screen
+      name="Sos Map"
+      component={Map}
+      options={{
+        headerTintColor: 'white',
+        headerTitleAlign: 'center',
+        headerTitle: 'Map',
         headerBackTitleVisible: false,
         gestureEnabled: false,
         headerStyle: {

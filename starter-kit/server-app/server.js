@@ -10,6 +10,8 @@ const cloudant = require("./lib/cloudant.js");
 
 const userCloudant = require("./lib/userCloudant");
 
+const serviceCloudant = require("./lib/serviceCloudant");
+
 const app = express();
 app.use(bodyParser.json());
 
@@ -47,7 +49,19 @@ const testConnections = () => {
     })
     .catch((err) => {
       console.error(err);
-      status["cloudant"] = "failed";
+      status["userCloudant"] = "failed";
+      return status;
+    })
+    .then(() => {
+      return serviceCloudant.serviceDbInfo();
+    })
+    .then(() => {
+      status["serviceCloudant"] = "ok";
+      return status;
+    })
+    .catch((err) => {
+      console.error(err);
+      status["serviceCloudant"] = "failed";
       return status;
     });
 };
@@ -349,6 +363,26 @@ app.post("/api/login", (req, res) => {
         res.send({ ...modifiedUserData });
       } else {
         console.log("No user registered");
+        res.send([]);
+      }
+    })
+    .catch((err) => handleError(res, err));
+});
+
+/**
+ * Get matched service provider list
+ */
+app.post("/api/services", (req, res) => {
+  const { category } = req.body;
+
+  serviceCloudant
+    .getServices(category)
+    .then((data) => {
+      if (data.statusCode == 200 && data.data != "[]") {
+        const parsedData = JSON.parse(data.data);
+        res.send(parsedData);
+      } else {
+        console.log("No service provider found");
         res.send([]);
       }
     })

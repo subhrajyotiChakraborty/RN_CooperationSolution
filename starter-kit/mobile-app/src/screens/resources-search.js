@@ -117,6 +117,7 @@ const SearchResources = function({route, navigation}) {
       <TouchableOpacity
         style={styles.itemTouchable}
         onPress={() => {
+          console.log('item data=>', props);
           navigation.navigate('Map', {item: props});
         }}>
         <View style={styles.itemView}>
