@@ -13,6 +13,7 @@ import {TextField} from 'react-native-material-textfield';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import * as actions from '../store/actions';
+import {cos} from 'react-native-reanimated';
 
 class SignIn extends Component {
   constructor(props) {
@@ -24,6 +25,10 @@ class SignIn extends Component {
       email: '',
       password: '',
     };
+  }
+
+  componentDidMount() {
+    this.props.resetErrorState();
   }
 
   handleTextChange = (text, fieldName) => {
@@ -54,6 +59,9 @@ class SignIn extends Component {
   render() {
     return (
       <ScrollView style={styles.container}>
+        {this.props.isError && this.state.email.trim().length
+          ? Alert.alert('Error', this.props.message, [{text: 'OK'}])
+          : null}
         <Spinner
           visible={this.props.isLoading}
           textContent={'Loading...'}
@@ -75,7 +83,7 @@ class SignIn extends Component {
               autoCorrect={false}
               onChangeText={t => this.handleTextChange(t, 'email')}
               onSubmitEditing={this.handleSighIn}
-              returnKeyType="send"
+              returnKeyType="next"
               enablesReturnKeyAutomatically={true}
             />
             {!this.state.isValidEmail ? (
@@ -176,12 +184,15 @@ const mapStateToProps = state => {
   return {
     isLoading: state.user.loading,
     isLoggedIn: state.user.isLoggedIn,
+    isError: state.user.error,
+    message: state.user.message,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     auth: userData => dispatch(actions.authUser(userData)),
+    resetErrorState: () => dispatch(actions.resetErrorState()),
   };
 };
 

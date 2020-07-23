@@ -101,3 +101,9 @@ export const logout = () => {
     type: actionTypes.USER_AUTH_LOGOUT,
   };
 };
+
+export const resetErrorState = () => {
+  return {
+    type: actionTypes.USER_AUTH_RESET_ERROR_STATE,
+  };
+};

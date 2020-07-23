@@ -92,6 +92,10 @@ class SOS extends Component {
     });
   };
 
+  handleRequest = () => {
+    this.props.navigation.navigate('Detail');
+  };
+
   render() {
     return (
       <ScrollView>
@@ -208,7 +212,9 @@ class SOS extends Component {
                     ? styles.buttonWrapper_iOS
                     : styles.buttonWrapper
                 }>
-                <TouchableOpacity style={styles.sendButton}>
+                <TouchableOpacity
+                  style={styles.sendButton}
+                  onPress={this.handleRequest}>
                   <Text style={styles.buttonTextStyle}>Send Request</Text>
                 </TouchableOpacity>
               </View>

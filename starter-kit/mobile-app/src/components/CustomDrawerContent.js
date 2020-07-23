@@ -10,7 +10,6 @@ import UserAvatar from 'react-native-user-avatar';
 import Feather from 'react-native-vector-icons/Feather';
 
 const CustomDrawerContent = props => {
-  console.log(props);
   return (
     <View style={{flex: 1}}>
       <DrawerContentScrollView {...props}>
@@ -87,7 +86,6 @@ const CustomDrawerContent = props => {
           )}
           label="Sign Out"
           onPress={() => {
-            console.log(props);
             props.signOut();
           }}
         />

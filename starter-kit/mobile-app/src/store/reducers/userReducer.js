@@ -35,7 +35,7 @@ const reducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         error: true,
-        message: 'Some Error occurred',
+        message: 'Some Error occurred, Please try again.',
         loading: false,
       };
 
@@ -62,6 +62,13 @@ const reducer = (state = INITIAL_STATE, action) => {
 
     case actionTypes.USER_AUTH_LOGOUT:
       return INITIAL_STATE;
+
+    case actionTypes.USER_AUTH_RESET_ERROR_STATE:
+      return {
+        ...state,
+        error: false,
+        message: null,
+      };
 
     default:
       return state;

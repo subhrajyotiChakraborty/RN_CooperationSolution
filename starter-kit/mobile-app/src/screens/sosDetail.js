@@ -8,6 +8,10 @@ class Detail extends Component {
     this.state = {};
   }
 
+  componentDidMount() {
+    console.log('Detail Screen');
+  }
+
   render() {
     return (
       <View style={styles.detailContainer}>

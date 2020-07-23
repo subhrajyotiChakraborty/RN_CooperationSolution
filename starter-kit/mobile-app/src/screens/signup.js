@@ -41,6 +41,7 @@ class Signup extends Component {
 
   componentDidMount() {
     this.props.getLocation();
+    this.props.resetErrorState();
   }
 
   handleTextChange = (text, fieldName) => {
@@ -94,6 +95,9 @@ class Signup extends Component {
   render() {
     return (
       <ScrollView style={styles.container}>
+        {this.props.isError && this.state.email.trim().length
+          ? Alert.alert('Error', this.props.message, [{text: 'OK'}])
+          : null}
         <Spinner
           visible={this.props.isLoading}
           textContent={'Loading...'}
@@ -111,7 +115,7 @@ class Signup extends Component {
               value={this.state.name}
               onChangeText={t => this.handleTextChange(t, 'name')}
               onSubmitEditing={this.handleSignup}
-              returnKeyType="send"
+              returnKeyType="next"
               autoCorrect={false}
               enablesReturnKeyAutomatically={true}
               keyboardType="email-address"
@@ -130,7 +134,7 @@ class Signup extends Component {
               value={this.state.email}
               onChangeText={t => this.handleTextChange(t, 'email')}
               onSubmitEditing={this.handleSignup}
-              returnKeyType="send"
+              returnKeyType="next"
               autoCapitalize="none"
               autoCorrect={false}
               enablesReturnKeyAutomatically={true}
@@ -152,7 +156,7 @@ class Signup extends Component {
               onChangeText={t => this.handleTextChange(t, 'password')}
               style={styles.input}
               onSubmitEditing={this.handleSignup}
-              returnKeyType="send"
+              returnKeyType="next"
               autoCapitalize="none"
               autoCorrect={false}
               enablesReturnKeyAutomatically={true}
@@ -177,7 +181,7 @@ class Signup extends Component {
               placeholder="Enter your 10 digit mobile number"
               keyboardType="phone-pad"
               onSubmitEditing={this.handleSignup}
-              returnKeyType="send"
+              returnKeyType="next"
               enablesReturnKeyAutomatically={true}
               characterRestriction={10}
             />
@@ -211,6 +215,35 @@ class Signup extends Component {
           </View>
 
           <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>User Role</Text>
+            <PickerSelect
+              useNativeAndroidPickerStyle={false}
+              style={{
+                inputIOS: styles.selector,
+                inputAndroid: styles.selectorAndroid,
+              }}
+              value={this.state.selectedRole}
+              onValueChange={t =>
+                this.setState({...this.state, selectedRole: t})
+              }
+              items={[
+                {label: 'Social Worker', value: 'Social Worker'},
+                {label: 'Teacher', value: 'Teacher'},
+                {label: 'Doctor', value: 'Doctor'},
+                {label: 'Business Owner', value: 'Business Owner'},
+                {label: 'Technical Person', value: 'Technical Person'},
+              ]}
+              placeholder={{
+                label: 'Select your role...',
+              }}
+              placeholderTextColor="rgb(128, 128, 128)"
+            />
+            {!this.state.isValidAddress ? (
+              <Text style={styles.errorText}>Please select you role</Text>
+            ) : null}
+          </View>
+
+          <View style={styles.inputContainer}>
             <View style={styles.checkboxContainer}>
               <TouchableOpacity onPress={this.handleToggleUseLocation}>
                 {this.state.useLocation ? (
@@ -239,35 +272,6 @@ class Signup extends Component {
               placeholder="street address, city, state"
               editable={!this.state.useLocation}
             />
-          </View>
-
-          <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>User Role</Text>
-            <PickerSelect
-              useNativeAndroidPickerStyle={false}
-              style={{
-                inputIOS: styles.selector,
-                inputAndroid: styles.selectorAndroid,
-              }}
-              value={this.state.selectedRole}
-              onValueChange={t =>
-                this.setState({...this.state, selectedRole: t})
-              }
-              items={[
-                {label: 'Social Worker', value: 'Social Worker'},
-                {label: 'Teacher', value: 'Teacher'},
-                {label: 'Doctor', value: 'Doctor'},
-                {label: 'Business Owner', value: 'Business Owner'},
-                {label: 'Technical Person', value: 'Technical Person'},
-              ]}
-              placeholder={{
-                label: 'Select your role...',
-              }}
-              placeholderTextColor="rgb(128, 128, 128)"
-            />
-            {!this.state.isValidAddress ? (
-              <Text style={styles.errorText}>Please select you role</Text>
-            ) : null}
           </View>
         </View>
         <View style={styles.signupBtnContainer}>
@@ -373,6 +377,8 @@ const mapStateToProps = state => {
     locationStr: state.user.location,
     isLoading: state.user.loading,
     isLoggedIn: state.user.isLoggedIn,
+    isError: state.user.error,
+    message: state.user.message,
   };
 };
 
@@ -382,6 +388,7 @@ const mapDispatchToProps = dispatch => {
     updateLocation: locationStr =>
       dispatch(actions.updateUserLocation(locationStr)),
     registerUser: userData => dispatch(actions.registerUser(userData)),
+    resetErrorState: () => dispatch(actions.resetErrorState()),
   };
 };
 
