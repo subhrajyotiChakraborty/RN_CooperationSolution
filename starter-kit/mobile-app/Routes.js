@@ -24,6 +24,7 @@ import CustomDrawerContent from './src/components/CustomDrawerContent';
 import Profile from './src/screens/profile';
 import SOS from './src/screens/sos';
 import Detail from './src/screens/sosDetail';
+import SosProfile from './src/screens/sosProfile';
 import * as actions from './src/store/actions';
 
 import {HomeIcon, DonateIcon, SearchIcon} from './src/images/svg-icons';
@@ -266,11 +267,26 @@ const SosStackLayout = () => (
   <Stack.Navigator>
     <Stack.Screen name="SOS" component={SOS} options={SOSStackOptions} />
     <Stack.Screen
-      name="Detail"
+      name="Details"
       component={Detail}
       options={{
         headerTintColor: 'white',
+        headerTitle: 'Service Provider',
         headerTitleAlign: 'center',
+        headerBackTitleVisible: false,
+        gestureEnabled: false,
+        headerStyle: {
+          backgroundColor: 'rgb(26, 72, 255)',
+        },
+      }}
+    />
+    <Stack.Screen
+      name="Sos Profile"
+      component={SosProfile}
+      options={{
+        headerTintColor: 'white',
+        headerTitleAlign: 'center',
+        headerTitle: 'Details',
         headerBackTitleVisible: false,
         gestureEnabled: false,
         headerStyle: {

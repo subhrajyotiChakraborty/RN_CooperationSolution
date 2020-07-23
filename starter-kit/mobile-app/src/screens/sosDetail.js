@@ -1,21 +1,64 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 
 class Detail extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      availableServiceProvider: [
+        {
+          id: '1',
+          name: 'Hospital A',
+          phone: '1234567892',
+          email: 'aa@aa.com',
+          location: '22.8481108,88.3715879',
+          description: 'We provide emergency service',
+        },
+        {
+          id: '2',
+          name: 'Hospital B',
+          phone: '2334567892',
+          email: 'bb@bb.com',
+          location: '22.8481108,88.3715879',
+          description: 'We provide emergency service, with ICU facilities',
+        },
+      ],
+    };
   }
 
   componentDidMount() {
-    console.log('Detail Screen');
+    const {emergencyService} = this.props.route.params;
+    const {emergencyLocation} = this.props.route.params;
+
+    console.log('Detail Screen =>', emergencyService, emergencyLocation);
   }
 
   render() {
+    const ListItems = props => (
+      <TouchableOpacity
+        style={styles.itemTouchable}
+        onPress={() =>
+          this.props.navigation.navigate('Sos Profile', {
+            details: props,
+          })
+        }>
+        <View style={styles.itemView}>
+          <Text style={styles.itemName}>{props.name}</Text>
+          {/* <Text style={styles.itemQuantity}> ( {props.quantity} ) </Text> */}
+        </View>
+        <Text style={styles.itemDescription}>{props.description}</Text>
+      </TouchableOpacity>
+    );
+
     return (
       <View style={styles.detailContainer}>
-        <Text>SOS page</Text>
+        <FlatList
+          style={styles.flatListView}
+          data={this.state.availableServiceProvider}
+          renderItem={({item}) => <ListItems {...item} />}
+          keyExtractor={item => item.id}
+        />
       </View>
     );
   }
@@ -23,7 +66,44 @@ class Detail extends Component {
 
 const styles = StyleSheet.create({
   detailContainer: {
-    padding: 10,
+    // padding: 10,
+  },
+  itemTouchable: {
+    flexDirection: 'column',
+    padding: 15,
+    justifyContent: 'flex-start',
+    alignItems: 'stretch',
+    borderBottomColor: '#dddddd',
+    borderBottomWidth: 0.25,
+  },
+  itemView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  itemName: {
+    fontSize: 24,
+    fontFamily: 'IBMPlexSans-Medium',
+  },
+  itemDescription: {
+    fontSize: 14,
+    fontFamily: 'IBMPlexSans-Medium',
+    color: 'gray',
+  },
+  itemQuantity: {
+    fontSize: 14,
+    fontFamily: 'IBMPlexSans-Medium',
+    color: 'gray',
+  },
+  emptyListView: {
+    backgroundColor: '#FFFFFF',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emptyListText: {
+    fontFamily: 'IBMPlexSans-Bold',
+    color: '#999999',
+    fontSize: 16,
   },
 });
 

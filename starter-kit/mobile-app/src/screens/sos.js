@@ -2,17 +2,20 @@ import React, {Component} from 'react';
 import {
   View,
   Text,
+  TextInput,
   StyleSheet,
   TouchableOpacity,
   Platform,
   ScrollView,
+  Alert,
 } from 'react-native';
+import {connect} from 'react-redux';
 
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {CheckedIcon, UncheckedIcon} from '../images/svg-icons';
-import {TextInput} from 'react-native-gesture-handler';
+import * as actions from '../store/actions';
 
 class SOS extends Component {
   constructor(props) {
@@ -20,6 +23,7 @@ class SOS extends Component {
 
     this.state = {
       useLocation: true,
+      selectedService: '',
       firstSection: [
         {
           name: 'doctor',
@@ -57,6 +61,10 @@ class SOS extends Component {
     };
   }
 
+  componentDidMount() {
+    this.props.getLocation();
+  }
+
   handleToggleUseLocation = () => {
     this.setState(prevState => {
       return {
@@ -66,20 +74,24 @@ class SOS extends Component {
     });
   };
 
-  handleEmergencySelection = (name, section) => {
+  handleEmergencySelection = name => {
     const newFirstSection = [...this.state.firstSection];
     const newSecondSection = [...this.state.secondSection];
+
+    let newSelectedService = '';
     newFirstSection.forEach(item => {
-      if (item.name === name) {
+      if (item.label === name) {
         item.isSelected = !item.isSelected;
+        newSelectedService = item.isSelected ? name : '';
       } else {
         item.isSelected = false;
       }
     });
 
     newSecondSection.forEach(item => {
-      if (item.name === name) {
+      if (item.label === name) {
         item.isSelected = !item.isSelected;
+        newSelectedService = item.isSelected ? name : '';
       } else {
         item.isSelected = false;
       }
@@ -89,11 +101,26 @@ class SOS extends Component {
       ...this.state,
       firstSection: newFirstSection,
       secondSection: newSecondSection,
+      selectedService: newSelectedService.toLowerCase(),
     });
   };
 
   handleRequest = () => {
-    this.props.navigation.navigate('Detail');
+    if (
+      !this.state.selectedService.trim().length ||
+      !this.props.locationStr.trim().length
+    ) {
+      Alert.alert(
+        'Error',
+        'Please select a service and provide your location.',
+        [{text: 'OK'}],
+      );
+    } else {
+      this.props.navigation.navigate('Details', {
+        emergencyService: this.state.selectedService,
+        emergencyLocation: this.props.locationStr,
+      });
+    }
   };
 
   render() {
@@ -107,7 +134,7 @@ class SOS extends Component {
                 <TouchableOpacity
                   key={index}
                   style={Platform.OS === 'ios' ? styles.tile_iOS : styles.tile}
-                  onPress={() => this.handleEmergencySelection(item.name)}>
+                  onPress={() => this.handleEmergencySelection(item.label)}>
                   <View style={styles.tileIcon}>
                     <Icons name={item.name} size={40} color="white" />
                     {item.isSelected ? (
@@ -134,7 +161,7 @@ class SOS extends Component {
                 <TouchableOpacity
                   key={index}
                   style={Platform.OS === 'ios' ? styles.tile_iOS : styles.tile}
-                  onPress={() => this.handleEmergencySelection(item.name)}>
+                  onPress={() => this.handleEmergencySelection(item.label)}>
                   <View style={styles.tileIcon}>
                     <Icons name={item.name} size={40} color="white" />
                     {item.isSelected ? (
@@ -163,14 +190,21 @@ class SOS extends Component {
                 size={24}
                 color="black"
               />
-              <Text
-                style={
-                  Platform.OS === 'ios'
-                    ? styles.whereText_iOS
-                    : styles.whereText
-                }>
-                Where is the emergency?
-              </Text>
+              <View style={styles.myLocationBtnContainer}>
+                <Text
+                  style={
+                    Platform.OS === 'ios'
+                      ? styles.whereText_iOS
+                      : styles.whereText
+                  }>
+                  Where is the emergency?
+                </Text>
+                <TouchableOpacity
+                  style={styles.curLocBtn}
+                  onPress={this.props.getLocation}>
+                  <Text style={styles.curLocBtnText}>My Location</Text>
+                </TouchableOpacity>
+              </View>
             </View>
             <View style={styles.inputContainer}>
               <View style={styles.checkboxContainer}>
@@ -372,6 +406,39 @@ const styles = StyleSheet.create({
     left: -45,
     zIndex: 1,
   },
+  myLocationBtnContainer: {
+    flexDirection: 'row',
+    // borderWidth: 1,
+    // borderColor: 'black',
+    justifyContent: 'space-between',
+    flex: 1,
+  },
+  curLocBtn: {
+    marginVertical: 5,
+    marginRight: 10,
+  },
+  curLocBtnText: {
+    color: 'rgb(26, 72, 255)',
+    fontFamily: 'IBMPlexSans-Medium',
+    textDecorationLine: 'underline',
+    textDecorationStyle: 'solid',
+  },
 });
 
-export default SOS;
+const mapStateToProps = state => {
+  return {
+    locationStr: state.user.location,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getLocation: () => dispatch(actions.getUserLocation()),
+    updateLocation: location => dispatch(actions.updateUserLocation(location)),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SOS);
