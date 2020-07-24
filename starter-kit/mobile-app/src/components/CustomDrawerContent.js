@@ -72,7 +72,7 @@ const CustomDrawerContent = props => {
               )}
               label="Settings"
               onPress={() => {
-                console.log('go to Settings page');
+                props.navigation.navigate('Settings');
               }}
             />
           </View>

@@ -22,6 +22,7 @@ import SignIn from './src/screens/signin';
 import Signup from './src/screens/signup';
 import CustomDrawerContent from './src/components/CustomDrawerContent';
 import Profile from './src/screens/profile';
+import Settings from './src/screens/settings';
 import SOS from './src/screens/sos';
 import Detail from './src/screens/sosDetail';
 import SosProfile from './src/screens/sosProfile';
@@ -141,6 +142,29 @@ const ProfileOptions = ({navigation}) => {
   };
 };
 
+const SettingsOptions = ({navigation}) => {
+  return {
+    headerTintColor: 'white',
+    headerTitleAlign: 'center',
+    headerStyle: {
+      backgroundColor: 'rgb(26, 72, 255)',
+    },
+    headerLeft: () => {
+      return (
+        <TouchableOpacity
+          style={Platform.OS === 'ios' ? {padding: 0} : {padding: 10}}
+          onPress={() => navigation.goBack()}>
+          <Feather
+            name={Platform.OS === 'ios' ? 'chevron-left' : 'arrow-left'}
+            size={Platform.OS === 'ios' ? 34 : 24}
+            color="white"
+          />
+        </TouchableOpacity>
+      );
+    },
+  };
+};
+
 const SOSStackOptions = ({navigation}) => {
   return {
     headerTintColor: 'white',
@@ -174,6 +198,16 @@ const tabBarOptions = {
 const ProfileLayout = () => (
   <Stack.Navigator>
     <Stack.Screen name="Profile" component={Profile} options={ProfileOptions} />
+  </Stack.Navigator>
+);
+
+const SettingsLayout = () => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="Settings"
+      component={Settings}
+      options={SettingsOptions}
+    />
   </Stack.Navigator>
 );
 
@@ -434,6 +468,13 @@ class Routes extends React.Component {
                 <Drawer.Screen
                   name="Profile"
                   component={ProfileLayout}
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+                <Drawer.Screen
+                  name="Settings"
+                  component={SettingsLayout}
                   options={{
                     headerShown: false,
                   }}

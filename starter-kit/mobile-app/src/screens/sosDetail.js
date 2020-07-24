@@ -49,6 +49,7 @@ class Detail extends Component {
         onPress={() =>
           this.props.navigation.navigate('Sos Profile', {
             details: props,
+            userLocation: this.props.route.params.emergencyLocation,
           })
         }>
         <View style={styles.itemView}>

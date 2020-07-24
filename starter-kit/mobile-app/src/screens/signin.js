@@ -57,10 +57,13 @@ class SignIn extends Component {
   };
 
   render() {
+    console.log(this.props.isError);
     return (
       <ScrollView style={styles.container}>
-        {this.props.isError && this.state.email.trim().length
-          ? Alert.alert('Error', this.props.message, [{text: 'OK'}])
+        {this.props.isError
+          ? Alert.alert('Error', this.props.message, [
+              {text: 'OK', onPress: () => this.props.resetErrorState()},
+            ])
           : null}
         <Spinner
           visible={this.props.isLoading}

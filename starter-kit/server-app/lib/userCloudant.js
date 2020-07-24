@@ -122,20 +122,29 @@ function login(email, password) {
         if (err) {
           reject(err);
         } else {
-          bcrypt.compare(password, documents.docs[0].password, function (
-            bcryptErr,
-            result
+          if (
+            documents &&
+            documents.docs &&
+            documents.docs[0] &&
+            documents.docs[0].password
           ) {
-            if (result) {
-              resolve({
-                data: JSON.stringify(documents.docs),
-                statusCode: 200,
-              });
-            } else {
-              console.log(bcryptErr);
-              reject("Please use correct credentials");
-            }
-          });
+            bcrypt.compare(password, documents.docs[0].password, function (
+              bcryptErr,
+              result
+            ) {
+              if (result) {
+                resolve({
+                  data: JSON.stringify(documents.docs),
+                  statusCode: 200,
+                });
+              } else {
+                console.log(bcryptErr);
+                reject("Please use correct credentials");
+              }
+            });
+          } else {
+            reject("Please use correct credentials");
+          }
         }
       }
     );

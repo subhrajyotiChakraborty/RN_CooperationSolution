@@ -30,8 +30,10 @@ class SosProfile extends Component {
 
   handleMapView = () => {
     const {details} = this.props.route.params;
+    const {userLocation} = this.props.route.params;
     this.props.navigation.navigate('Sos Map', {
       item: {...details, contact: details.phone},
+      userLocation,
     });
   };
 
@@ -53,9 +55,9 @@ class SosProfile extends Component {
     return (
       <View style={styles.profileContainer}>
         <View style={styles.userAvatarContainer}>
-          <UserAvatar style={styles.userAvatar} size={100} name={name} />
+          <UserAvatar style={styles.userAvatar} size={70} name={name} />
           <Text style={styles.userName}>{name}</Text>
-          <Text style={styles.userRole}>{description}</Text>
+          <Text style={styles.description}>{description}</Text>
         </View>
         <View style={styles.userDetailsContainer}>
           <View style={styles.userInfo}>
@@ -115,14 +117,17 @@ const styles = StyleSheet.create({
     width: 100,
     padding: 10,
     fontFamily: 'IBMPlexSans-Medium',
+    textAlign: 'center',
   },
   userName: {
     fontFamily: 'IBMPlexSans-Medium',
     fontSize: 20,
+    textAlign: 'center',
   },
-  userRole: {
+  description: {
     fontFamily: 'IBMPlexSans-Light',
     fontSize: 16,
+    textAlign: 'center',
   },
   userDetailsContainer: {
     flex: 2,

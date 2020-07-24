@@ -35,48 +35,50 @@ const circleRed = `
     </g>
   </g>
 </svg>
-`.trim()
+`.trim();
 
 const searchRadius = 20000; // in meters
 const currentCoordinates = {
   lat: 35.7846633,
-  lng: -78.6820946
+  lng: -78.6820946,
 };
 
-const formatDistance = (d) => (d < 1000) ? `${d}m` : `${(d / 1000).toFixed(1)}km`;
-const formatDuration = (d) => {
+const formatDistance = d => (d < 1000 ? `${d}m` : `${(d / 1000).toFixed(1)}km`);
+const formatDuration = d => {
   const h = Math.floor(d / 3600);
-  const m = Math.floor(d % 3600 / 60);
-  return (h > 0) ? `${h}h ${m}min` : `${m}min`;
+  const m = Math.floor((d % 3600) / 60);
+  return h > 0 ? `${h}h ${m}min` : `${m}min`;
 };
-const formatItemInfo = (item) => {
+const formatItemInfo = item => {
   return `
 <p><strong>Name</strong>:<br> ${item.name}</p>
 <p><strong>Description</strong>:<br> ${item.description}</p>
 <p><strong>Contact</strong>:<br> ${item.contact}</p>
 `.trim();
 };
-const getCoordinates = (location) => {
-  const coords = (typeof location === 'string') ? location.split(',') : location;
+const getCoordinates = location => {
+  const coords = typeof location === 'string' ? location.split(',') : location;
 
   if (coords.length !== 2 || isNaN(coords[0]) || isNaN(coords[1])) {
     return geocodeSearch(location);
   } else {
-    return Promise.resolve({ lat: coords[0], lng: coords[1] });
+    return Promise.resolve({lat: coords[0], lng: coords[1]});
   }
-}
+};
 
 const routeLineStyles = {
-  normal: { strokeColor: 'rgba(0, 128, 255, 0.5)', lineWidth: 3 },
-  selected: { strokeColor: 'rgba(255, 0, 0, 0.7)', lineWidth: 7 }
+  normal: {strokeColor: 'rgba(0, 128, 255, 0.5)', lineWidth: 3},
+  selected: {strokeColor: 'rgba(255, 0, 0, 0.7)', lineWidth: 7},
 };
 
 const getQueryObject = () => {
-  return (window.location.search.match(/([^=?&]+=[^&]+)/g)||[])
-    .reduce((a,b) => {
+  return (window.location.search.match(/([^=?&]+=[^&]+)/g) || []).reduce(
+    (a, b) => {
       a[b.split('=')[0]] = b.split('=')[1];
       return a;
-    }, {});
+    },
+    {},
+  );
 };
 
 const routeOptions = (from, to) => {
@@ -87,14 +89,14 @@ const routeOptions = (from, to) => {
     waypoint0: `geo!${from.lat},${from.lng}`,
     waypoint1: `geo!${to.lat},${to.lng}`,
     routeattributes: 'waypoints,summary,shape,legs',
-    maneuverattributes: 'direction,action'
+    maneuverattributes: 'direction,action',
   };
 };
 
-const zoomAndCenterAround = function (group) {
+const zoomAndCenterAround = function(group) {
   if (group.getChildCount()) {
     map.getViewModel().setLookAtData({
-      bounds: group.getBoundingBox()
+      bounds: group.getBoundingBox(),
     });
   }
 };
@@ -118,26 +120,29 @@ const addMarker = (position, opts) => {
 
   if (options.icon) {
     markerOptions = {
-      icon: options.icon
+      icon: options.icon,
     };
-  } 
+  }
 
   const marker = new H.map.Marker(position, markerOptions);
 
   if (options.data) {
     marker.setData(options.data);
 
-    marker.addEventListener('tap', (evt) => {
-      const position = map.screenToGeo(evt.currentPointer.viewportX, evt.currentPointer.viewportY);
+    marker.addEventListener('tap', evt => {
+      const position = map.screenToGeo(
+        evt.currentPointer.viewportX,
+        evt.currentPointer.viewportY,
+      );
 
       addInfoBubble(evt.target.getGeometry(), {
-        content: evt.target.getData()
+        content: evt.target.getData(),
       });
 
       if (typeof options.clickListener === 'function') {
         options.clickListener(evt, position);
       }
-    })
+    });
   } else if (typeof options.clickListener === 'function') {
     marker.addEventListener('tap', () => {
       options.clickListener(evt, position);
@@ -151,14 +156,14 @@ const addMarker = (position, opts) => {
   if (options.recenter) {
     map.getViewModel().setLookAtData({
       position: position,
-      zoom: 10
+      zoom: 10,
     });
   }
 
   return marker;
 };
 
-const onRouteSelection = (route) => {
+const onRouteSelection = route => {
   if (selectedRoute) {
     selectedRoute.routeLine.setStyle(routeLineStyles.normal).setZIndex(1);
   }
@@ -167,16 +172,19 @@ const onRouteSelection = (route) => {
   selectedRoute = route;
 };
 
-const routePanel = function (routes, onRouteSelected) {
+const routePanel = function(routes, onRouteSelected) {
   let selectedRoute = null;
   let selectedRouteElement = null;
 
   const routeList = document.querySelector('#routePanel ul');
   routeList.innerHTML = '';
 
-  const renderRouteTitle = (routeSummary, i) => `<span>Route ${i + 1}</span> (${formatDistance(routeSummary.distance)} in ${formatDuration(routeSummary.travelTime)})`;
+  const renderRouteTitle = (routeSummary, i) =>
+    `<span>Route ${i + 1}</span> (${formatDistance(
+      routeSummary.distance,
+    )} in ${formatDuration(routeSummary.travelTime)})`;
 
-  const renderManeuvers = (maneuvers) => {
+  const renderManeuvers = maneuvers => {
     const mLi = maneuvers.map(m => `<li>${m.instruction}</li>`).join('');
     return `<ol class="directions">${mLi}</ol>`;
   };
@@ -187,22 +195,26 @@ const routePanel = function (routes, onRouteSelected) {
     element.innerHTML = renderRouteTitle(route.route.summary, i);
     element.innerHTML += renderManeuvers(route.route.leg[0].maneuver);
 
-    element.addEventListener('click', () => {
-      if (element.classList.contains('selected')) {
-        element.classList.remove('selected');
-      } else {
-        if (selectedRoute) {
-          selectedRouteElement.classList.remove('selected');
-        }
-        element.classList.add('selected');
-        selectedRoute = route;
-        selectedRouteElement = element;
+    element.addEventListener(
+      'click',
+      () => {
+        if (element.classList.contains('selected')) {
+          element.classList.remove('selected');
+        } else {
+          if (selectedRoute) {
+            selectedRouteElement.classList.remove('selected');
+          }
+          element.classList.add('selected');
+          selectedRoute = route;
+          selectedRouteElement = element;
 
-        if (typeof onRouteSelected === 'function') {
-          onRouteSelected(selectedRoute);
+          if (typeof onRouteSelected === 'function') {
+            onRouteSelected(selectedRoute);
+          }
         }
-      }
-    }, false);
+      },
+      false,
+    );
 
     return element;
   };
@@ -212,7 +224,7 @@ const routePanel = function (routes, onRouteSelected) {
   });
 };
 
-const drawRoute = (route) => {
+const drawRoute = route => {
   const routeShape = route.shape;
   const lineString = new H.geo.LineString();
 
@@ -224,10 +236,10 @@ const drawRoute = (route) => {
   const polyline = new H.map.Polyline(lineString, {
     style: {
       lineWidth: 4,
-      strokeColor: 'rgba(0, 128, 255, 0.5)'
-    }
+      strokeColor: 'rgba(0, 128, 255, 0.5)',
+    },
   });
-  
+
   map.addObject(polyline);
   return polyline;
 };
@@ -238,28 +250,29 @@ const calculateRoute = (from, to) => {
     routeLineGroup = null;
   }
   return getRoute(from, to)
-    .then((results) => {
+    .then(results => {
       routeLineGroup = new H.map.Group();
 
-      const routes = results.map((route) => {
+      const routes = results.map(route => {
         const routeLine = drawRoute(route);
         routeLineGroup.addObject(routeLine);
-  
+
         return {
           route: route,
-          routeLine: routeLine
+          routeLine: routeLine,
         };
       });
-  
+
       map.addObject(routeLineGroup);
       // zoomAndCenterAround(routeLineGroup);
       return routes;
-    }).then((routes) => {
-      routePanel(routes, onRouteSelection);
     })
+    .then(routes => {
+      routePanel(routes, onRouteSelection);
+    });
 };
 
-const getRoute = function (from, to) {
+const getRoute = function(from, to) {
   if (!router) {
     router = platform.getRoutingService();
   }
@@ -267,20 +280,22 @@ const getRoute = function (from, to) {
   return new Promise((resolve, reject) => {
     router.calculateRoute(
       routeOptions(from, to),
-      (result) => {
+      result => {
         resolve(result.response.route);
-      }, (error) => {
+      },
+      error => {
         reject(error);
-      });
+      },
+    );
   });
 };
 
 const searchFor = (query, cb) => {
   searchCallback = cb;
-  sendMessage({ search: query });
-}
+  sendMessage({search: query});
+};
 
-const handleSearchResponse = (results) => {
+const handleSearchResponse = results => {
   if (currentInfoBubble) {
     ui.removeBubble(currentInfoBubble);
     currentInfoBubble.dispose();
@@ -305,24 +320,20 @@ const handleSearchResponse = (results) => {
 
   searchGroup = new H.map.Group();
 
-  const r = results.map((item) => {
-    return getCoordinates(item.location)
-      .then(coords => {
-        const opts = {
-          skip: true,
-          data: formatItemInfo(item),
-          clickListener: eventListener,
-          icon: new H.map.Icon(circleRed, {
-            anchor: new H.math.Point(0, 31),
-            size: new H.math.Size(28, 28)
-          })
-        };
-    
-        searchGroup.addObject(addMarker(
-          coords,
-          opts
-        ));
-      });
+  const r = results.map(item => {
+    return getCoordinates(item.location).then(coords => {
+      const opts = {
+        skip: true,
+        data: formatItemInfo(item),
+        clickListener: eventListener,
+        icon: new H.map.Icon(circleRed, {
+          anchor: new H.math.Point(0, 31),
+          size: new H.math.Size(28, 28),
+        }),
+      };
+
+      searchGroup.addObject(addMarker(coords, opts));
+    });
   });
 
   Promise.all(r).then(() => {
@@ -330,13 +341,13 @@ const handleSearchResponse = (results) => {
       searchCallback();
       searchCallback = null;
     }
-  
+
     map.addObject(searchGroup);
     zoomAndCenterAround(searchGroup);
-  })
+  });
 };
 
-const updatePosition = (position) => {
+const updatePosition = position => {
   currentCoordinates.lat = position.latitude || position.lat;
   currentCoordinates.lng = position.longitude || position.lng;
 
@@ -346,16 +357,18 @@ const updatePosition = (position) => {
   }
 
   currentMarker = addMarker(currentCoordinates, {
-    data: `<p>Location: ${currentCoordinates.lat},${currentCoordinates.lng}</p>`,
+    data: `<p>Location: ${currentCoordinates.lat},${
+      currentCoordinates.lng
+    }</p>`,
     recenter: true,
     icon: new H.map.Icon(markerBlue, {
       anchor: new H.math.Point(11, 31),
-      size: new H.math.Size(22, 31)
-    })
+      size: new H.math.Size(22, 31),
+    }),
   });
 };
 
-const updateItemPosition = (item) => {
+const updateItemPosition = item => {
   if (currentItemMarker) {
     map.removeObject(currentItemMarker);
     currentItemMarker = null;
@@ -364,22 +377,21 @@ const updateItemPosition = (item) => {
   const eventListener = (evt, coordinates) => {
     calculateRoute(currentCoordinates, coordinates);
   };
-  
-  getCoordinates(item.location)
-    .then(coords => {
-      currentItemMarker = addMarker(coords, {
-        data: formatItemInfo(item),
-        clickListener: eventListener,
-        recenter: true,
-        icon: new H.map.Icon(markerRed, {
-          anchor: new H.math.Point(11, 31),
-          size: new H.math.Size(22, 31)
-        })
-      });
+
+  getCoordinates(item.location).then(coords => {
+    currentItemMarker = addMarker(coords, {
+      data: formatItemInfo(item),
+      clickListener: eventListener,
+      recenter: true,
+      icon: new H.map.Icon(markerRed, {
+        anchor: new H.math.Point(11, 31),
+        size: new H.math.Size(22, 31),
+      }),
     });
+  });
 };
 
-const onMessageReceived = (data) => {
+const onMessageReceived = data => {
   if (data.item && data.item.location) {
     updateItemPosition(data.item);
   } else if (data.search) {
@@ -389,33 +401,33 @@ const onMessageReceived = (data) => {
   }
 };
 
-const geocodeSearch = (query) => {
+const geocodeSearch = query => {
   if (!geocoder) {
     geocoder = platform.getGeocodingService();
   }
 
   return new Promise((resolve, reject) => {
     geocoder.geocode(
-      { searchText: query },
-      (results) => {
+      {searchText: query},
+      results => {
         const locations = results.Response.View[0].Result;
         if (locations.length) {
           resolve({
             lat: locations[0].Location.DisplayPosition.Latitude,
-            lng: locations[0].Location.DisplayPosition.Longitude
+            lng: locations[0].Location.DisplayPosition.Longitude,
           });
         } else {
-          resolve(locations)
+          resolve(locations);
         }
       },
-      (err) => {
+      err => {
         reject(e);
-      }
-    )
+      },
+    );
   });
 };
 
-const sendMessage = (data) => {
+const sendMessage = data => {
   window.ReactNativeWebView.postMessage(JSON.stringify(data));
 };
 
@@ -424,36 +436,32 @@ const initMap = () => {
   const qs = getQueryObject();
 
   platform = new H.service.Platform({
-    apikey: qs.apikey
+    apikey: qs.apikey,
   });
 
   const options = {
     zoom: 8,
     center: currentCoordinates,
-    pixelRatio: window.devicePixelRatio || 1
+    pixelRatio: window.devicePixelRatio || 1,
   };
 
   const defaultLayers = platform.createDefaultLayers();
 
-  map = new H.Map(
-    mapContainer,
-    defaultLayers.vector.normal.map,
-    options
-  );
+  map = new H.Map(mapContainer, defaultLayers.vector.normal.map, options);
 
   const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
   ui = H.ui.UI.createDefault(map, defaultLayers);
 
-  document.addEventListener('message', (message) => {
+  document.addEventListener('message', message => {
     if (message.data) {
       onMessageReceived(message.data);
     }
   });
 
   try {
-    sendMessage({ status: 'initialized' });
-  } catch(err) {
-    onMessageReceived({ coords: currentCoordinates })
+    sendMessage({status: 'initialized'});
+  } catch (err) {
+    onMessageReceived({coords: currentCoordinates});
   }
 };
 
