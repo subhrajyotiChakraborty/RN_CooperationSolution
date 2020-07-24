@@ -239,6 +239,8 @@ const EditResource = props => {
         labelFontSize={20}
         labelTextStyle={styles.textLabel}
         value={item.contact}
+        autoCapitalize="none"
+        autoCorrect={false}
         onChangeText={t => setItem({...item, contact: t})}
         onSubmitEditing={updateItem}
         returnKeyType="send"

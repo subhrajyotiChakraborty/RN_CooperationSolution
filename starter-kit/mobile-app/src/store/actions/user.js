@@ -2,6 +2,7 @@ import axios from 'axios';
 import Config from 'react-native-config';
 import DeviceInfo from 'react-native-device-info';
 import Geolocation from '@react-native-community/geolocation';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import * as actionTypes from './actionTypes';
 
@@ -27,6 +28,7 @@ export const authUser = userData => {
         ...userData,
       });
       // console.log(response.data);
+      await AsyncStorage.setItem('userData', JSON.stringify(response.data));
       dispatch(authUserSuccess(response.data));
     } catch (error) {
       dispatch(authUserFail(error));
@@ -44,6 +46,7 @@ export const registerUser = userData => {
         mobileID: uniqueid,
       });
       // console.log(response.data);
+      await AsyncStorage.setItem('userData', JSON.stringify(response.data));
       dispatch(authUserSuccess(response.data));
     } catch (error) {
       console.log(error);
@@ -96,6 +99,17 @@ export const updateUserLocation = locationStr => {
   };
 };
 
+export const clearUserData = () => {
+  return async dispatch => {
+    try {
+      await AsyncStorage.removeItem('userData');
+      dispatch(logout());
+    } catch (error) {
+      console.log('Error during clear userData');
+    }
+  };
+};
+
 export const logout = () => {
   return {
     type: actionTypes.USER_AUTH_LOGOUT,
@@ -105,5 +119,22 @@ export const logout = () => {
 export const resetErrorState = () => {
   return {
     type: actionTypes.USER_AUTH_RESET_ERROR_STATE,
+  };
+};
+
+export const checkLoginStatus = () => {
+  return async dispatch => {
+    try {
+      dispatch(authUserStart());
+      const user = await AsyncStorage.getItem('userData');
+      console.log(user);
+      if (user !== null) {
+        dispatch(authUserSuccess(JSON.parse(user)));
+      } else {
+        dispatch(resetErrorState());
+      }
+    } catch (error) {
+      dispatch(authUserFail(error));
+    }
   };
 };

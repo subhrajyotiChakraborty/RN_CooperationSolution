@@ -10,6 +10,7 @@ import {
 
 import UserAvatar from 'react-native-user-avatar';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {openComposer} from 'react-native-email-link';
 
 class SosProfile extends Component {
   constructor(props) {
@@ -25,7 +26,11 @@ class SosProfile extends Component {
 
   handleEmail = () => {
     const {details} = this.props.route.params;
-    Linking.openURL(details.email);
+    openComposer({
+      to: details.email,
+      subject: 'SOS request',
+      body: 'Need urgent help.',
+    });
   };
 
   handleMapView = () => {

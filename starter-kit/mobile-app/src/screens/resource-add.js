@@ -218,6 +218,8 @@ const AddResource = function({navigation}) {
         labelFontSize={20}
         onChangeText={t => setItem({...item, contact: t})}
         onSubmitEditing={sendItem}
+        autoCapitalize="none"
+        autoCorrect={false}
         returnKeyType="send"
         enablesReturnKeyAutomatically={true}
         placeholder="user@domain.com"

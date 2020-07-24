@@ -57,7 +57,6 @@ class SignIn extends Component {
   };
 
   render() {
-    console.log(this.props.isError);
     return (
       <ScrollView style={styles.container}>
         {this.props.isError

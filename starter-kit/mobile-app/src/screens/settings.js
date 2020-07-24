@@ -5,7 +5,7 @@ const itemsArray = [
   {
     id: '1',
     name: 'notification',
-    label: 'Would you like to receive notification',
+    label: 'Send auto SOS message',
   },
 ];
 const Settings = () => {
@@ -16,8 +16,8 @@ const Settings = () => {
       <View style={styles.itemView}>
         <Text style={styles.itemName}>{props.label}</Text>
         <Switch
-          trackColor={{false: '#white', true: 'rgb(26, 72, 255)'}}
-          thumbColor={isEnabled ? '#white' : 'f5dd4b'}
+          trackColor={{false: 'white', true: 'rgb(26, 72, 255)'}}
+          thumbColor={isEnabled ? '#ccc' : '#ccc'}
           ios_backgroundColor="#3e3e3e"
           onValueChange={toggleSwitch}
           value={isEnabled}

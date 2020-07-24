@@ -194,28 +194,6 @@ class Signup extends Component {
           </View>
 
           <View style={styles.inputContainer}>
-            <TextField
-              style={styles.input}
-              labelTextStyle={styles.floatingInputLabel}
-              labelFontSize={20}
-              label="Address"
-              autoCorrect={false}
-              value={this.state.address}
-              onChangeText={t => this.handleTextChange(t, 'address')}
-              multiline
-              onSubmitEditing={this.handleSignup}
-              enablesReturnKeyAutomatically={true}
-              characterRestriction={150}
-              placeholder="Enter your home address"
-            />
-            {!this.state.isValidAddress ? (
-              <Text style={styles.errorText}>
-                Please enter your 10 digit mobile number
-              </Text>
-            ) : null}
-          </View>
-
-          <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>User Role</Text>
             <PickerSelect
               useNativeAndroidPickerStyle={false}
@@ -241,6 +219,28 @@ class Signup extends Component {
             />
             {!this.state.isValidAddress ? (
               <Text style={styles.errorText}>Please select you role</Text>
+            ) : null}
+          </View>
+
+          <View style={styles.inputContainer}>
+            <TextField
+              style={styles.input}
+              labelTextStyle={styles.floatingInputLabel}
+              labelFontSize={20}
+              label="Address"
+              autoCorrect={false}
+              value={this.state.address}
+              onChangeText={t => this.handleTextChange(t, 'address')}
+              multiline
+              onSubmitEditing={this.handleSignup}
+              enablesReturnKeyAutomatically={true}
+              characterRestriction={150}
+              placeholder="Enter your home address"
+            />
+            {!this.state.isValidAddress ? (
+              <Text style={styles.errorText}>
+                Please enter your 10 digit mobile number
+              </Text>
             ) : null}
           </View>
 

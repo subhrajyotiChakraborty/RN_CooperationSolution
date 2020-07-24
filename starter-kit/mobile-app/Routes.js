@@ -389,6 +389,7 @@ class Routes extends React.Component {
 
   componentDidMount() {
     this.props.showSplashLoader();
+    this.props.checkLoginStatus();
   }
 
   signOut = () => {
@@ -500,7 +501,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     showSplashLoader: () => dispatch(actions.splashLoader()),
-    logout: () => dispatch(actions.logout()),
+    checkLoginStatus: () => dispatch(actions.checkLoginStatus()),
+    logout: () => dispatch(actions.clearUserData()),
     resetNewsState: () => dispatch(actions.resetNewsState()),
   };
 };

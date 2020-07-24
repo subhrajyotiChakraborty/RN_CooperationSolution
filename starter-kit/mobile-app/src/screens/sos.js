@@ -65,6 +65,13 @@ class SOS extends Component {
     this.props.getLocation();
   }
 
+  handleMyLocationPress = () => {
+    this.props.getLocation();
+    if (!this.state.useLocation) {
+      this.handleToggleUseLocation();
+    }
+  };
+
   handleToggleUseLocation = () => {
     this.setState(prevState => {
       return {
@@ -201,7 +208,7 @@ class SOS extends Component {
                 </Text>
                 <TouchableOpacity
                   style={styles.curLocBtn}
-                  onPress={this.props.getLocation}>
+                  onPress={this.handleMyLocationPress}>
                   <Text style={styles.curLocBtnText}>My Location</Text>
                 </TouchableOpacity>
               </View>
@@ -362,7 +369,7 @@ const styles = StyleSheet.create({
     fontFamily: 'IBMPlexSans-Medium',
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
-    fontSize: 20,
+    fontSize: 18,
   },
   textInputDisabled: {
     fontFamily: 'IBMPlexSans-Medium',
@@ -373,7 +380,7 @@ const styles = StyleSheet.create({
     fontFamily: 'IBMPlexSans-Medium',
     backgroundColor: '#ddd',
     color: '#999',
-    fontSize: 20,
+    fontSize: 18,
   },
   buttonWrapper: {
     marginTop: 15,

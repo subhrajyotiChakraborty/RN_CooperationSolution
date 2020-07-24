@@ -61,14 +61,8 @@ const reducer = (state = INITIAL_STATE, action) => {
       };
 
     case actionTypes.USER_AUTH_LOGOUT:
-      return INITIAL_STATE;
-
     case actionTypes.USER_AUTH_RESET_ERROR_STATE:
-      return {
-        ...state,
-        error: false,
-        message: null,
-      };
+      return INITIAL_STATE;
 
     default:
       return state;

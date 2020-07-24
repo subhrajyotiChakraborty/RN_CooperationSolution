@@ -63,5 +63,16 @@
 	<string>en</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
+  <key>LSApplicationQueriesSchemes</key>
+  <array>
+      <string>message</string>
+      <string>readdle-spark</string>
+      <string>airmail</string>
+      <string>ms-outlook</string>
+      <string>googlegmail</string>
+      <string>inbox-gmail</string>
+      <string>ymail</string>
+      <string>superhuman</string>
+  </array>
 </dict>
 </plist>

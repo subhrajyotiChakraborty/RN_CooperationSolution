@@ -5,6 +5,8 @@ export {
   registerUser,
   logout,
   resetErrorState,
+  checkLoginStatus,
+  clearUserData,
 } from './user';
 export {splashLoader} from './splashLoader';
 export {fetchNews, resetNewsState} from './news';
