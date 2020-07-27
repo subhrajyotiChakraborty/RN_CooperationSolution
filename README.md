@@ -188,7 +188,7 @@ To run the mobile application (using the Xcode iOS Simulator or Android Studio E
 
 With the application running in the simulator/emulator, you should be able to navigate through the various screens:
 
-![Onboarding Screen](/images/1-onboarding.png)
+![Onboarding Screen](/images/1-onboarding.png =250x250)
 ![Sign Up Screen](/images/2-signup.png)
 ![Login Screen](/images/3-login.png)
 ![News Screen](/images/4-news-tab.png)
