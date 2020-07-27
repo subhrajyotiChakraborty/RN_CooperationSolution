@@ -16,13 +16,11 @@
 
 ### What's the problem?
 
-There is a growing interest in enabling communities to cooperate among themselves to solve these problems, whether it be to advertise where supplies are held, offer assistance for collections, or other local services like volunteer deliveries.
+In the ongoing COVID-19 crisis, we have seen shortages of food, medical supplies, and other essential commodities. In addition, the recommended/required self-isolation and social distancing measures have compounded the problem by preventing people from having a steady supply of basic necessities.
 
-In times of crisis, such as the 2020 SARS-COV-2 (COVID-19 or "Novel Coronavirus") crisis, while federal and local governments may be rolling out broad programs, cooperation at the local level is usually the most effective way of getting help to where it is most needed as quickly as possible. Traditional social media is one way of communicating within a community, but this is (by its very design) not locally focused, and often not sufficiently structured to enable rapid discovery of help needed.
+Hence, there is a growing interest in enabling communities to cooperate among themselves to solve these problems, in the form of like offering assistance for medical emergencies, or other local services like volunteer deliveries of food and essential commodities.
 
-In the COVID-19 crisis, we have already seen shortages of local food, medical equipment, and other supplies. In addition, the recommended (or required) self-isolation and social distancing measures can compound the problem by preventing people from easily getting to locations with the best stocks of supplies.
-
-What is needed is a solution that empowers communities to easily connect and provide this information to each other.
+The need of the hour is a solution that empowers communities to easily connect and communicate this information to each other.
 
 ### How can technology help?
 
