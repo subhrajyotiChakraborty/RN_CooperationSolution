@@ -192,7 +192,7 @@ With the application running in the simulator/emulator, you should be able to na
 ![Sign Up Screen](/images/2-signup.png)
 ![Login Screen](/images/3-login.png)
 ![News Screen](/images/4-news-tab.png)
-![My Donation Screen](/images/5-my-donation.png)
+![My Donation Screen](/images/5-my-donations.png)
 ![Add Donation Screen](/images/6-add-donation.png)
 ![Edit Donation Screen](/images/7-edit-donation.png)
 ![SOS Screen](/images/8-SOS-tab.png)
