@@ -1,6 +1,8 @@
+---
 applications:
-- name: demo-covid-help-app
-  command: npm start
-  path: .
-  memory: 128M
-  instances: 1
+  - name: CfcCtsTrailBlazersNode
+    domain: null
+    host: null
+    routes:
+      - route: trailBlazers-node-app.eu-gb.cf.appdomain.cloud
+    memory: 256M

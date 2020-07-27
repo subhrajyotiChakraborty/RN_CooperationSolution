@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   tile: {
-    padding: 10,
+    paddingVertical: 10,
     marginHorizontal: 4,
     marginVertical: 5,
     borderWidth: 1,
