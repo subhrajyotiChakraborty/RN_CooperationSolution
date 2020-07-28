@@ -62,8 +62,11 @@ Trusted sources for COVID-19 Information:
 ### IBM Cloud Services
 
 - [IBM Watson Assistant](https://www.ibm.com/cloud/watson-assistant/)
+- [IBM Watson Discovery](https://www.ibm.com/cloud/watson-discovery)
+- [IBM Cloudant](https://www.ibm.com/cloud/cloudant)
 - [Build a Chatbot For Your Mobile App](https://developer.ibm.com/technologies/mobile/patterns/building-a-chatbot-with-kubernetes-watson-assistant-and-elastic-search)
 - [Build a cross-platform mobile app using React Native](https://developer.ibm.com/technologies/mobile/patterns/build-a-cross-platform-mobile-app-to-search-company-news-and-gain-insights)
+- [IBM Cloud Foundry](https://www.ibm.com/cloud/cloud-foundry)
 
 ### HERE Technologies
 
