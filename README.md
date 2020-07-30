@@ -15,17 +15,25 @@
 
 ### What's the problem?
 
-In the ongoing COVID-19 crisis, we have seen shortages of food, medical supplies, and other essential commodities. In addition, the recommended/required self-isolation and social distancing measures have compounded the problem by preventing people from having a steady supply of basic necessities.
-
-Hence, there is a growing interest in enabling communities to cooperate among themselves to solve these problems, in the form of like offering assistance for medical emergencies, or other local services like volunteer deliveries of food and essential commodities.
-
-The need of the hour is a solution that empowers communities to easily connect and communicate this information to each other.
+In the ongoing COVID-19 crisis, we have seen shortages of food, medical supplies, and other essential commodities. Lack of proper communication channel between people requiring support from authorities in case of shortage of commodities/medical emergency/disaster leads to delay in taking prompt action. Caregivers, NGOs, Community service providers, Shop owners lack knowledge of exact persons in need of any specific help. People willing to extend help also do not know proper forums to engage in any voluntary service.
 
 ### How can technology help?
 
-Mobile, web, and cloud services enable rapid deployment of applications that can empower cooperation in the community. [Watson Assistant](https://www.ibm.com/cloud/watson-assistant/) is a service on [IBM Cloud](https://cloud.ibm.com) that allows you to build, train, and deploy conversational interactions into any application, device, or channel.
+A mobile based solution that empowers communities to easily connect and communicate this information to each other. The mobile, web and cloud services used ensures rapid development/deployment of a scalable solution. Application will act as an one stop solution for not only COVID-19 scenarios but in any disaster/crisis management scenarios identifying persons needing any help and connecting them to persons who can provide that help. Application engages persons in multiple roles to identify people requiring and providing support-
 
-Creating a chatbot using Watson Assistant can help you address the issues that your users may face while trying to gather the necessary information. Embedding location/routing services (like [HERE](https://developer.here.com/products/routing)) can enhance such applications, giving optimum guidance so that they are outside of their isolation location for the minimum amount of time.
+·         Medical Service providers
+
+·         Voluntary Engagement Workers
+
+·         Food or Convenience Shop Owners/Suppliers
+
+·         Senior Citizens
+
+·         Citizens needing Medical help
+
+·         Doctors
+
+·         Authorities (Police, Ambulance Providers, Hospital Service Providers )
 
 ## How it works
 
