@@ -9,7 +9,6 @@
 5. [Technology](#technology)
 6. [Getting started](#getting-started)
 7. [Resources](#resources)
-8. [License](#license)
 
 ## Overview
 
@@ -210,7 +209,3 @@ With the application running in the simulator/emulator, you should be able to na
 - [Node.js](https://nodejs.org)
 - [React Native](https://reactnative.dev/)
 - [IBM Blockchain for Developers](https://developer.ibm.com/technologies/blockchain/)
-
-## License
-
-This solution starter is made available under the [Apache 2 License](LICENSE).
