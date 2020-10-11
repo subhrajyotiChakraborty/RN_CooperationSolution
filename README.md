@@ -189,8 +189,6 @@ With the application running in the simulator/emulator, you should be able to na
 ![Login Screen](/images/3-login.png)
 ![News Screen](/images/4-news-tab.png)
 ![My Donation Screen](/images/5-my-donations.png)
-![Add Donation Screen](/images/6-add-donation.png)
-![Edit Donation Screen](/images/7-edit-donation.png)
 ![Search Screen](/images/13-search-tab.png)
 ![Chat Screen](/images/14-chat.png)
 ![Side Panel Screen](/images/15-side-panel.png)
